@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Cadastro de Disciplinas</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Cadastro de Disciplinas</h2>
+        <form th:method="POST" th:action="@{/Disciplinas}">
+
+            <input required type="text" placeholder="nome" th:name="nome">
+
+            <input required type="number" placeholder="carga horária" th:name="cargaHoraria">
+
+            <select id="curso" name="curso" required>
+                <option value="" disabled selected>Selecione um Curso</option>
+                <option th:each="curso : ${listaCurso}"
+                        th:value="${curso.id}"
+                        th:text="${curso.nome}">
+                </option>
+            </select>
+
+            <button type="submit">Cadastrar</button>
+            <a th:href="@{/listaDisciplina}">
+                <button type="button">Voltar para Lista</button>
+            </a>
+        </form>
+        <div th:if="${param.sucesso}" class="mensagem-sucesso">
+
+            <p>Cadastro realizado com sucesso!</p>
+
+        </div>
+    </body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Edição de Alunos</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+       <h2>Editar Aluno</h2>
+
+        <form th:action="@{/atualizarAluno}" method="post">
+
+            <input type="hidden" name="id" th:value="${aluno.idPessoa}">
+
+            <label>Nome:</label>
+            <input required type="text"
+                name="nome"
+                th:value="${aluno.nome}">
+
+            <label>Email:</label>
+            <input required type="email"
+                name="email"
+                th:value="${aluno.email}">
+
+            <label>Idade:</label>
+            <input required type="number"
+                name="idade"
+                th:value="${aluno.idade}">
+
+            <label>Endereço:</label>
+            <input required type="text"
+                name="endereco"
+                th:value="${aluno.endereco}">
+
+            <label>Telefone:</label>
+            <input required type="tel"
+                name="telefone"
+                th:value="${aluno.telefone}">
+
+            <label>Prontuário:</label>
+            <input required type="text"
+                name="prontuario"
+                th:value="${aluno.prontuario}">
+
+            <label>Ano de Ingresso:</label>
+            <input required type="number"
+                name="anoIngresso"
+                th:value="${aluno.anoIngresso}">
+
+            <label>Ano de Saída:</label>
+            <input required type="number"
+                name="anoSaida"
+                th:value="${aluno.anoSaida}">
+            
+           <div class="botoes">
+            <button type="submit">Salvar</button>
+            <button type="button"
+                th:onclick="|window.location.href='@{/listaAluno}'|">
+                Cancelar
+            </button>
+            </div>
+
+        </form>
+
+    </body>
+</html>

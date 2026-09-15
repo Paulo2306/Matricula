@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Edição de Professores</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+       <h2>Editar Professor</h2>
+
+        <form th:action="@{/atualizarProfessor}" method="post">
+
+            <input type="hidden" name="id" th:value="${Professor.idPessoa}">
+
+            <label>Nome:</label>
+            <input required type="text"
+                name="nome"
+                th:value="${Professor.nome}">
+
+            <label>Email:</label>
+            <input required type="email"
+                name="email"
+                th:value="${Professor.email}">
+
+            <label>Idade:</label>
+            <input required type="number"
+                name="idade"
+                th:value="${Professor.idade}">
+
+            <label>Endereço:</label>
+            <input required type="text"
+                name="endereco"
+                th:value="${Professor.endereco}">
+
+            <label>Telefone:</label>
+            <input required type="tel"
+                name="telefone"
+                th:value="${Professor.telefone}">
+
+            <label>SIAPE:</label>
+            <input required type="text"
+                name="siape"
+                th:value="${Professor.siape}">
+
+            <label>Área:</label>
+            <input required type="text"
+                name="area"
+                th:value="${Professor.area}">
+
+            <label>Formação:</label>
+            <input required type="text"
+                name="formacao"
+                th:value="${Professor.formacao}">
+            
+           <div class="botoes">
+            <button type="submit">Salvar</button>
+            <button type="button"
+                th:onclick="|window.location.href='@{/listaProfessor}'|">
+                Cancelar
+            </button>
+            </div>
+
+        </form>
+
+    </body>
+</html>

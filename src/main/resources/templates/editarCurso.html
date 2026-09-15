@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Edição de Cursos</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+       <h2>Editar Curso</h2>
+
+        <form th:action="@{/atualizarCurso}" method="post">
+
+            <input type="hidden" name="id" th:value="${Curso.id}">
+
+            <label>Nome:</label>
+            <input required type="text"
+                name="nome"
+                th:value="${Curso.nome}">
+
+            <label>ducacao:</label>
+            <input required type="text"
+                name="duracao"
+                th:value="${Curso.duracao}">
+            
+           <div class="botoes">
+            <button type="submit">Salvar</button>
+            <button type="button"
+                th:onclick="|window.location.href='@{/listaCurso}'|">
+                Cancelar
+            </button>
+            </div>
+
+        </form>
+
+    </body>
+</html>

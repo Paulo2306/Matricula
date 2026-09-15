@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Listar Disciplinas</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Lista de Disciplinas</h2>
+        <div th:if="${erro}" class="mensagem erro">
+            <span th:text="${erro}"></span>
+        </div>
+
+        <div th:if="${sucesso}" class="mensagem sucesso">
+            <span th:text="${sucesso}"></span>
+        </div>
+        <table>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Carga Horária</th>
+            <th>Curso</th>
+            <th>Ações</th>
+        </tr>
+
+        <tr th:each="Disciplina : ${listaDisciplinas}">
+            <td th:text="${Disciplina.id}"></td>
+            <td th:text="${Disciplina.nome}"></td>
+            <td th:text="${Disciplina.cargaHoraria}"></td>
+            <td th:text="${Disciplina.curso != null ? Disciplina.curso.nome : 'Nenhum'}"></td>
+
+            <td>
+                <a th:href="@{/editarDisciplina(id=${Disciplina.id})}">Editar</a>
+                <a th:href="@{/excluirDisciplina(id=${Disciplina.id})}">Excluir</a>
+            </td>
+        </tr>
+        <div class="botoes-lista">
+
+            <a th:href="@{/cadastraDisciplina}">
+                <button type="button">Novo Cadastro</button>
+            </a>
+
+            <a th:href="@{/dashboard}">
+                <button type="button">Voltar para Listas</button>
+            </a>
+
+        </div>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,208 @@
+/* =========================
+   CONFIGURAÇÕES GERAIS
+   ========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 40px;
+    color: #333;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+
+/* =========================
+   FORMULÁRIOS
+   ========================= */
+
+form {
+    background-color: white;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input,
+form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+form input:focus,
+form select:focus {
+    outline: none;
+    border-color: #555;
+}
+
+
+/* =========================
+   BOTÕES
+   ========================= */
+
+button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+.botoes {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.botoes a {
+    text-decoration: none;
+}
+
+
+/* =========================
+   TABELAS
+   ========================= */
+
+table {
+    width: 90%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #333;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+tr:hover {
+    background-color: #eeeeee;
+}
+
+
+/* =========================
+   LINKS DA TABELA
+   ========================= */
+
+td a {
+    text-decoration: none;
+    color: #333;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+td a:hover {
+    text-decoration: underline;
+}
+
+.menu-listas {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.menu-listas a {
+    display: block;
+    padding: 14px;
+    background-color: white;
+    color: #333;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menu-listas a:hover {
+    background-color: #eeeeee;
+}
+
+
+.botoes-lista {
+    width: 90%;
+    margin: 0 auto 20px auto;
+    display: flex;
+    gap: 10px;
+}
+
+
+.botoes-lista a {
+    text-decoration: none;
+}
+
+
+.mensagem-sucesso {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.mensagem-sucesso p:first-child {
+    font-weight: bold;
+}
+
+.mensagem {
+    padding: 12px 16px;
+    margin: 15px 0;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.mensagem.erro {
+    background-color: #ffe0e0;
+    border: 1px solid #cc5555;
+    color: #990000;
+}
+
+.mensagem.sucesso {
+    background-color: #e0ffe0;
+    border: 1px solid #55aa55;
+    color: #267326;
+}

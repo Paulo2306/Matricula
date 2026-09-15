@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Cadastro de Alunos</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Cadastro de Alunos</h2>
+        <form th:method="POST" th:action="@{/Alunos}">
+            <input required type="text" placeholder="nome" th:name="nome">
+            <input required type="email" placeholder="email" th:name="email">
+            <input required type="number" placeholder="Ano Ingresso" th:name="anoIngresso">
+            <input required type="number" placeholder="Ano Saida" th:name="anoSaida">
+            <input required type="text" placeholder="Prontuario" th:name="prontuario">
+            <input required type="text" placeholder="endereco" th:name="endereco">
+            <input required type="tel" placeholder="telefone" th:name="telefone">
+            <input required type="number" placeholder="idade" th:name="idade">
+            <button type="submit">Cadastrar</button>
+            <a th:href="@{/listaAluno}">
+                <button type="button">Voltar para Lista</button>
+            </a>
+        </form>
+
+
+
+        <div th:if="${param.sucesso}" class="mensagem-sucesso">
+            <p>Cadastro realizado com sucesso!</p>
+        </div>
+    </body>
+</html>

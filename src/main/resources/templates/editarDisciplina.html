@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Edição de Disciplinas</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+       <h2>Editar Disciplina</h2>
+
+        <form th:action="@{/atualizarDisciplina}" method="post">
+
+            <input type="hidden" name="id" th:value="${Disciplina.id}">
+
+            <label>Nome:</label>
+            <input required type="text"
+                name="nome"
+                th:value="${Disciplina.nome}">
+
+            <label>Carga Horária:</label>
+            <input required type="number"
+                name="cargaHoraria"
+                th:value="${Disciplina.cargaHoraria}">
+
+            <label for="curso">Curso:</label>
+            <select required id="curso" name="curso" required>
+                <option value="" disabled>Selecione um Curso</option>
+                <option th:each="curso : ${listaCurso}"
+                        th:value="${curso.id}"
+                        th:text="${curso.nome}"
+                        th:selected="${Disciplina.curso != null and curso.id == Disciplina.curso.id}">
+                </option>
+            </select>
+            
+           <div class="botoes">
+            <button type="submit">Salvar</button>
+            <button type="button"
+                th:onclick="|window.location.href='@{/listaDisciplina}'|">
+                Cancelar
+            </button>
+            </div>
+
+        </form>
+
+    </body>
+</html>

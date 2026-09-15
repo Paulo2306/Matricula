@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Listar Professores</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Lista de Professores</h2>
+        <div th:if="${erro}" class="mensagem erro">
+            <span th:text="${erro}"></span>
+        </div>
+
+        <div th:if="${sucesso}" class="mensagem sucesso">
+            <span th:text="${sucesso}"></span>
+        </div>
+        <table>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Idade</th>
+            <th>Endereço</th>
+            <th>Telefone</th>
+            <th>SIAPE</th>
+            <th>Área</th>
+            <th>Formação</th>
+            <th>Ações</th>
+        </tr>
+
+        <tr th:each="professor : ${listaProfessores}">
+            <td th:text="${professor.idPessoa}"></td>
+            <td th:text="${professor.nome}"></td>
+            <td th:text="${professor.email}"></td>
+            <td th:text="${professor.idade}"></td>
+            <td th:text="${professor.endereco}"></td>
+            <td th:text="${professor.telefone}"></td>
+            <td th:text="${professor.siape}"></td>
+            <td th:text="${professor.area}"></td>
+            <td th:text="${professor.formacao}"></td>
+
+            <td>
+                <a th:href="@{/editarProfessor(id=${professor.idPessoa})}">Editar</a>
+                <a th:href="@{/excluirProfessor(id=${professor.idPessoa})}">Excluir</a>
+            </td>
+        </tr>
+            <div class="botoes-lista">
+
+                <a th:href="@{/cadastraProfessor}">
+                    <button type="button">Novo Cadastro</button>
+                </a>
+
+                <a th:href="@{/dashboard}">
+                    <button type="button">Voltar para Listas</button>
+                </a>
+
+            </div>
+        </table>
+    </body>
+</html>

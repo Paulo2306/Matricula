@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Cadastro de OfertaDisciplinas</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Cadastro de OfertaDisciplinas</h2>
+        <form th:method="POST" th:action="@{/OfertaDisciplinas}">
+            <select required id="professor" name="professor_id">
+                <option value="" disabled selected>Selecione um Professor</option>
+                <option th:each="professor : ${listaProfessor}" th:value="${professor.idPessoa}"
+                    th:text="${professor.nome}"></option>
+            </select>
+
+            <select required id="disciplina" name="disciplina_id">
+                <option value="" disabled selected>Selecione uma disciplina</option>
+                <option th:each="disciplina : ${listaDisciplina}" th:value="${disciplina.id}"
+                    th:text="${disciplina.nome + ' - ' + disciplina.curso.nome}"></option>
+            </select>
+
+            <button type="submit">Cadastrar</button>
+            <a th:href="@{/listaOfertaDisciplina}">
+                <button type="button">Voltar para Lista</button>
+            </a>
+        </form>
+        <div th:if="${param.sucesso}" class="mensagem-sucesso">
+
+            <p>Cadastro realizado com sucesso!</p>
+
+        </div>
+    </body>
+</html>

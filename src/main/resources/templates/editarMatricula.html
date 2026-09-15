@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Edição de Matrícula</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Editar Matrícula</h2>
+
+        <form th:action="@{/atualizarMatricula}" method="post">
+
+            <input type="hidden" name="id" th:value="${matricula.id}">
+
+            <label for="aluno">Aluno:</label>
+            <select required id="aluno" name="aluno_id" required>
+                <option value="" disabled>Selecione um Aluno</option>
+                <option th:each="aluno : ${listaAluno}" 
+                        th:value="${aluno.idPessoa}"
+                        th:text="${aluno.nome}"
+                        th:selected="${matricula?.aluno != null and aluno.idPessoa == matricula.aluno.idPessoa}">
+                </option>
+            </select>
+
+            <label for="ofertaDisciplina">Oferta de Disciplina:</label>
+            <select required id="ofertaDisciplina" name="ofertaDisciplina_id" required>
+                <option value="" disabled>Selecione uma Oferta</option>
+                <option th:each="od : ${listaDisciplina}" 
+                        th:value="${od.id}"
+                        th:text="${(od.disciplina != null ? od.disciplina.nome : 'Sem Disciplina') + ' - Prof. ' + (od.professor != null ? od.professor.nome : 'Sem Professor')}"
+                        th:selected="${matricula?.ofertaDisciplina != null and od.id == matricula.ofertaDisciplina.id}">
+                </option>
+            </select>
+            
+            <div class="botoes">
+                <button type="submit">Salvar</button>
+                <a th:href="@{/listaMatricula}">
+                    <button type="button">Cancelar</button>
+                </a>
+            </div>
+
+        </form>
+
+    </body>
+</html>

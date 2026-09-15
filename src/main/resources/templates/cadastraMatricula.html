@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Cadastro de Matricula</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Cadastro de Matricula</h2>
+        <form th:method="POST" th:action="@{/Matricula}">
+
+            <select required id="aluno" name="aluno_id">
+                <option value="" disabled selected>Selecione um Aluno</option>
+                <option th:each="aluno : ${listaAluno}"
+                        th:value="${aluno.idPessoa}"
+                        th:text="${aluno.nome}">
+                </option>
+            </select>
+
+            <select required id="ofertaDisciplina" name="ofertaDisciplina_id">
+                <option value="" disabled selected>Selecione uma Oferta de disciplina</option>
+                <option th:each="od : ${listaOfertaDisciplina}"
+                        th:value="${od.id}">
+                    [[${od.disciplina.nome}]] - [[${od.professor.nome}]]
+                </option>
+            </select>
+
+            <button type="submit">Cadastrar</button>
+            <a th:href="@{/listaMatricula}">
+                <button type="button">Voltar para Lista</button>
+            </a>
+        </form>
+        <div th:if="${param.sucesso}" class="mensagem-sucesso">
+
+            <p>Cadastro realizado com sucesso!</p>
+
+        </div>
+    </body>
+</html>
