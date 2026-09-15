@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Edição de Reservas</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Editar Reserva</h2>
+
+        <form th:action="@{/atualizarReserva}" method="post">
+            <input type="hidden" name="id" th:value="${reserva.id}">
+
+            <label>Data da Reserva:</label>
+            <input required type="date" name="dataReserva" th:value="${reserva.dataReserva}">
+
+            <label>Posição na Fila:</label>
+            <input required type="number" min="1" name="posicaoFila" th:value="${reserva.posicaoFila}">
+
+            <label>Status:</label>
+            <select name="status" required>
+                <option value="" disabled>Selecione o status</option>
+                <option th:each="status : ${listaStatusReserva}"
+                        th:value="${status}"
+                        th:text="${status}"
+                        th:selected="${reserva.status != null and status == reserva.status}">
+                </option>
+            </select>
+
+            <label>Aluno:</label>
+            <select name="alunoId" required>
+                <option value="" disabled>Selecione o aluno</option>
+                <option th:each="aluno : ${listaAluno}"
+                        th:value="${aluno.idPessoa}"
+                        th:text="${aluno.nome}"
+                        th:selected="${reserva.aluno != null and aluno.idPessoa == reserva.aluno.idPessoa}">
+                </option>
+            </select>
+
+            <label>Livro:</label>
+            <select name="livroId" required>
+                <option value="" disabled>Selecione o livro</option>
+                <option th:each="livro : ${listaLivro}"
+                        th:value="${livro.id}"
+                        th:text="${livro.titulo}"
+                        th:selected="${reserva.livro != null and livro.id == reserva.livro.id}">
+                </option>
+            </select>
+
+            <button type="submit">Salvar</button>
+            <a th:href="@{/listaReserva}"><button type="button">Cancelar</button></a>
+        </form>
+    </body>
+</html>

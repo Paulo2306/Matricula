@@ -1,11 +1,15 @@
 package com.ifsp.Matricula.Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,6 +28,9 @@ public class OfertaDisciplina {
     @JoinColumn(name = "disciplina_id")
     private Disciplina disciplina;
 
+    @OneToMany(mappedBy = "ofertaDisciplina")
+    private List<Prova> provas = new ArrayList<>();
+
     public OfertaDisciplina() {
     }
 
@@ -40,4 +47,7 @@ public class OfertaDisciplina {
 
     public Disciplina getDisciplina() { return disciplina; }
     public void setDisciplina(Disciplina disciplina) { this.disciplina = disciplina; }
+
+    public List<Prova> getProvas() { return provas; }
+    public void setProvas(List<Prova> provas) { this.provas = provas; }
 }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Listar Usuários</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Lista de Usuários</h2>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Login</th>
+                <th>Papel</th>
+                <th>Foto</th>
+                <th>Aluno</th>
+                <th>Ações</th>
+            </tr>
+
+            <tr th:each="usuario : ${listaUsuarios}">
+                <td th:text="${usuario.id}"></td>
+                <td th:text="${usuario.login}"></td>
+                <td th:text="${usuario.papel}"></td>
+                <td th:text="${usuario.fotoPerfil}"></td>
+                <td th:text="${usuario.aluno != null ? usuario.aluno.nome : 'Sem aluno'}"></td>
+                <td>
+                    <a th:href="@{/editarUsuario(id=${usuario.id})}">Editar</a>
+                    <a th:href="@{/excluirUsuario(id=${usuario.id})}">Excluir</a>
+                </td>
+            </tr>
+        </table>
+
+        <div class="botoes-lista">
+            <a th:href="@{/cadastraUsuario}">
+                <button type="button">Novo Cadastro</button>
+            </a>
+            <a th:href="@{/dashboard}">
+                <button type="button">Voltar para Listas</button>
+            </a>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Edição de Empréstimos</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Editar Empréstimo</h2>
+
+        <form th:action="@{/atualizarEmprestimo}" method="post">
+            <input type="hidden" name="id" th:value="${emprestimo.id}">
+
+            <label>Data de Retirada:</label>
+            <input required type="date" name="dataRetirada" th:value="${emprestimo.dataRetirada}">
+
+            <label>Data Prevista:</label>
+            <input required type="date" name="dataPrevista" th:value="${emprestimo.dataPrevista}">
+
+            <label>Data de Devolução:</label>
+            <input type="date" name="dataDevolucao" th:value="${emprestimo.dataDevolucao}">
+
+            <label>Status:</label>
+            <select name="status" required>
+                <option value="" disabled>Selecione o status</option>
+                <option th:each="status : ${listaStatusEmprestimo}"
+                        th:value="${status}"
+                        th:text="${status}"
+                        th:selected="${emprestimo.status != null and status == emprestimo.status}">
+                </option>
+            </select>
+
+            <label>Renovações:</label>
+            <input required type="number" min="0" name="renovacoes" th:value="${emprestimo.renovacoes}">
+
+            <label>Aluno:</label>
+            <select name="alunoId" required>
+                <option value="" disabled>Selecione o aluno</option>
+                <option th:each="aluno : ${listaAluno}"
+                        th:value="${aluno.idPessoa}"
+                        th:text="${aluno.nome}"
+                        th:selected="${emprestimo.aluno != null and aluno.idPessoa == emprestimo.aluno.idPessoa}">
+                </option>
+            </select>
+
+            <label>Exemplar:</label>
+            <select name="exemplarId" required>
+                <option value="" disabled>Selecione o exemplar</option>
+                <option th:each="exemplar : ${listaExemplar}"
+                        th:value="${exemplar.id}"
+                        th:text="${exemplar.tombo}"
+                        th:selected="${emprestimo.exemplar != null and exemplar.id == emprestimo.exemplar.id}">
+                </option>
+            </select>
+
+            <button type="submit">Salvar</button>
+            <a th:href="@{/listaEmprestimo}"><button type="button">Cancelar</button></a>
+        </form>
+    </body>
+</html>

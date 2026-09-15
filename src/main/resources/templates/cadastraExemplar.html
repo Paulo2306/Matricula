@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Cadastro de Exemplares</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Cadastro de Exemplares</h2>
+        <form th:method="POST" th:action="@{/Exemplares}">
+
+            <input required type="text" placeholder="tombo" th:name="tombo">
+
+            <select id="status" name="status" required>
+                <option value="" disabled selected>Selecione o status</option>
+                <option th:each="status : ${listaStatusExemplar}"
+                        th:value="${status}"
+                        th:text="${status}">
+                </option>
+            </select>
+
+            <select id="livroId" name="livroId" required>
+                <option value="" disabled selected>Selecione o livro</option>
+                <option th:each="livro : ${listaLivro}"
+                        th:value="${livro.id}"
+                        th:text="${livro.titulo}">
+                </option>
+            </select>
+
+            <button type="submit">Cadastrar</button>
+            <a th:href="@{/listaExemplar}">
+                <button type="button">Voltar para Lista</button>
+            </a>
+        </form>
+
+        <div th:if="${param.sucesso}" class="mensagem-sucesso">
+            <p>Cadastro realizado com sucesso!</p>
+        </div>
+    </body>
+</html>

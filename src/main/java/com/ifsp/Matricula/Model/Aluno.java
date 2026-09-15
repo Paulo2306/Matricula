@@ -1,8 +1,12 @@
 package com.ifsp.Matricula.Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 
 
 @Entity
@@ -17,6 +21,12 @@ public class Aluno extends Pessoa{
 
     @Column(name = "anoSaida")
     private int anoSaida;
+
+    @OneToMany(mappedBy = "aluno")
+    private List<Emprestimo> emprestimos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "aluno")
+    private List<Reserva> reservas = new ArrayList<>();
 
     public Aluno(String prontuario, int anoIngresso, int anoSaida, String nome, String email, int idade, String endereco, String telefone) {
         super(nome,email,idade,endereco,telefone );
@@ -65,5 +75,20 @@ public class Aluno extends Pessoa{
         this.anoSaida = anoSaida;
     }
 
+    public List<Emprestimo> getEmprestimos() {
+        return emprestimos;
+    }
+
+    public void setEmprestimos(List<Emprestimo> emprestimos) {
+        this.emprestimos = emprestimos;
+    }
+
+    public List<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
+    }
 
 }

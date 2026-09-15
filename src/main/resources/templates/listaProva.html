@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Listar Provas</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Lista de Provas</h2>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Data</th>
+                <th>Conteúdo</th>
+                <th>Peso</th>
+                <th>Oferta</th>
+                <th>Ações</th>
+            </tr>
+
+            <tr th:each="prova : ${listaProvas}">
+                <td th:text="${prova.id}"></td>
+                <td th:text="${prova.data}"></td>
+                <td th:text="${prova.conteudo}"></td>
+                <td th:text="${prova.peso}"></td>
+                <td th:text="${prova.ofertaDisciplina.disciplina.nome}"></td>
+                <td>
+                    <a th:href="@{/editarProva(id=${prova.id})}">Editar</a>
+                    <a th:href="@{/excluirProva(id=${prova.id})}">Excluir</a>
+                </td>
+            </tr>
+        </table>
+
+        <div class="botoes-lista">
+            <a th:href="@{/cadastraProva}">
+                <button type="button">Novo Cadastro</button>
+            </a>
+            <a th:href="@{/dashboard}">
+                <button type="button">Voltar para Listas</button>
+            </a>
+        </div>
+    </body>
+</html>

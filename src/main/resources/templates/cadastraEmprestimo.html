@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Cadastro de Empréstimos</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Cadastro de Empréstimos</h2>
+        <form th:method="POST" th:action="@{/Emprestimos}">
+
+            <input required type="date" th:name="dataRetirada">
+
+            <input required type="date" th:name="dataPrevista">
+
+            <input type="date" th:name="dataDevolucao">
+
+            <select id="status" name="status" required>
+                <option value="" disabled selected>Selecione o status</option>
+                <option th:each="status : ${listaStatusEmprestimo}"
+                        th:value="${status}"
+                        th:text="${status}">
+                </option>
+            </select>
+
+            <input required type="number" min="0" th:name="renovacoes">
+
+            <select id="alunoId" name="alunoId" required>
+                <option value="" disabled selected>Selecione o aluno</option>
+                <option th:each="aluno : ${listaAluno}"
+                        th:value="${aluno.idPessoa}"
+                        th:text="${aluno.nome}">
+                </option>
+            </select>
+
+            <select id="exemplarId" name="exemplarId" required>
+                <option value="" disabled selected>Selecione o exemplar</option>
+                <option th:each="exemplar : ${listaExemplar}"
+                        th:value="${exemplar.id}"
+                        th:text="${exemplar.tombo}">
+                </option>
+            </select>
+
+            <button type="submit">Cadastrar</button>
+            <a th:href="@{/listaEmprestimo}">
+                <button type="button">Voltar para Lista</button>
+            </a>
+        </form>
+
+        <div th:if="${param.sucesso}" class="mensagem-sucesso">
+            <p>Cadastro realizado com sucesso!</p>
+        </div>
+    </body>
+</html>

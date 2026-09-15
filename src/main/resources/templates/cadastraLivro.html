@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Cadastro de Livros</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Cadastro de Livros</h2>
+        <form th:method="POST" th:action="@{/Livros}">
+
+            <input required type="text" placeholder="título" th:name="titulo">
+
+            <input required type="text" placeholder="autor" th:name="autor">
+
+            <input required type="text" placeholder="isbn" th:name="isbn">
+
+            <input required type="text" placeholder="edição" th:name="edicao">
+
+            <input type="text" placeholder="capa imagem" th:name="capaImagem">
+
+            <select id="disciplinasIds" name="disciplinasIds" multiple>
+                <option th:each="disciplina : ${listaDisciplina}"
+                        th:value="${disciplina.id}"
+                        th:text="${disciplina.nome}">
+                </option>
+            </select>
+
+            <button type="submit">Cadastrar</button>
+            <a th:href="@{/listaLivro}">
+                <button type="button">Voltar para Lista</button>
+            </a>
+        </form>
+
+        <div th:if="${param.sucesso}" class="mensagem-sucesso">
+            <p>Cadastro realizado com sucesso!</p>
+        </div>
+    </body>
+</html>

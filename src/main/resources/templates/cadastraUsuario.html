@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Cadastro de Usuários</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Cadastro de Usuários</h2>
+        <form th:method="POST" th:action="@{/Usuarios}">
+
+            <input required type="text" placeholder="login" th:name="login">
+
+            <input required type="password" placeholder="senha hash" th:name="senhaHash">
+
+            <select id="papel" name="papel" required>
+                <option value="" disabled selected>Selecione um papel</option>
+                <option th:each="papel : ${listaPapel}"
+                        th:value="${papel}"
+                        th:text="${papel}">
+                </option>
+            </select>
+
+            <input type="text" placeholder="foto perfil" th:name="fotoPerfil">
+
+            <select id="alunoId" name="alunoId">
+                <option value="" selected>Selecione um aluno (opcional)</option>
+                <option th:each="aluno : ${listaAluno}"
+                        th:value="${aluno.idPessoa}"
+                        th:text="${aluno.nome}">
+                </option>
+            </select>
+
+            <button type="submit">Cadastrar</button>
+            <a th:href="@{/listaUsuario}">
+                <button type="button">Voltar para Lista</button>
+            </a>
+        </form>
+
+        <div th:if="${param.sucesso}" class="mensagem-sucesso">
+            <p>Cadastro realizado com sucesso!</p>
+        </div>
+    </body>
+</html>

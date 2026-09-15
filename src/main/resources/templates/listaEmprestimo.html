@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Listar Empréstimos</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Lista de Empréstimos</h2>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Data Retirada</th>
+                <th>Data Prevista</th>
+                <th>Data Devolução</th>
+                <th>Status</th>
+                <th>Renovações</th>
+                <th>Aluno</th>
+                <th>Exemplar</th>
+                <th>Ações</th>
+            </tr>
+
+            <tr th:each="emprestimo : ${listaEmprestimos}">
+                <td th:text="${emprestimo.id}"></td>
+                <td th:text="${emprestimo.dataRetirada}"></td>
+                <td th:text="${emprestimo.dataPrevista}"></td>
+                <td th:text="${emprestimo.dataDevolucao}"></td>
+                <td th:text="${emprestimo.status}"></td>
+                <td th:text="${emprestimo.renovacoes}"></td>
+                <td th:text="${emprestimo.aluno.nome}"></td>
+                <td th:text="${emprestimo.exemplar.tombo}"></td>
+                <td>
+                    <a th:href="@{/editarEmprestimo(id=${emprestimo.id})}">Editar</a>
+                    <a th:href="@{/excluirEmprestimo(id=${emprestimo.id})}">Excluir</a>
+                </td>
+            </tr>
+        </table>
+
+        <div class="botoes-lista">
+            <a th:href="@{/cadastraEmprestimo}">
+                <button type="button">Novo Cadastro</button>
+            </a>
+            <a th:href="@{/dashboard}">
+                <button type="button">Voltar para Listas</button>
+            </a>
+        </div>
+    </body>
+</html>

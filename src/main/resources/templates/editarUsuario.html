@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Edição de Usuários</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Editar Usuário</h2>
+
+        <form th:action="@{/atualizarUsuario}" method="post">
+            <input type="hidden" name="id" th:value="${usuario.id}">
+
+            <label>Login:</label>
+            <input required type="text" name="login" th:value="${usuario.login}">
+
+            <label>Senha Hash:</label>
+            <input required type="text" name="senhaHash" th:value="${usuario.senhaHash}">
+
+            <label>Papel:</label>
+            <select name="papel" required>
+                <option value="" disabled>Selecione um papel</option>
+                <option th:each="papel : ${listaPapel}"
+                        th:value="${papel}"
+                        th:text="${papel}"
+                        th:selected="${usuario.papel != null and papel == usuario.papel}">
+                </option>
+            </select>
+
+            <label>Foto de Perfil:</label>
+            <input type="text" name="fotoPerfil" th:value="${usuario.fotoPerfil}">
+
+            <label>Aluno:</label>
+            <select name="alunoId">
+                <option value="">Sem aluno</option>
+                <option th:each="aluno : ${listaAluno}"
+                        th:value="${aluno.idPessoa}"
+                        th:text="${aluno.nome}"
+                        th:selected="${usuario.aluno != null and aluno.idPessoa == usuario.aluno.idPessoa}">
+                </option>
+            </select>
+
+            <button type="submit">Salvar</button>
+            <a th:href="@{/listaUsuario}"><button type="button">Cancelar</button></a>
+        </form>
+    </body>
+</html>

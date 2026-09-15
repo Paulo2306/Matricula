@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Listar Exemplares</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Lista de Exemplares</h2>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Tombo</th>
+                <th>Status</th>
+                <th>Livro</th>
+                <th>Ações</th>
+            </tr>
+
+            <tr th:each="exemplar : ${listaExemplares}">
+                <td th:text="${exemplar.id}"></td>
+                <td th:text="${exemplar.tombo}"></td>
+                <td th:text="${exemplar.status}"></td>
+                <td th:text="${exemplar.livro.titulo}"></td>
+                <td>
+                    <a th:href="@{/editarExemplar(id=${exemplar.id})}">Editar</a>
+                    <a th:href="@{/excluirExemplar(id=${exemplar.id})}">Excluir</a>
+                </td>
+            </tr>
+        </table>
+
+        <div class="botoes-lista">
+            <a th:href="@{/cadastraExemplar}">
+                <button type="button">Novo Cadastro</button>
+            </a>
+            <a th:href="@{/dashboard}">
+                <button type="button">Voltar para Listas</button>
+            </a>
+        </div>
+    </body>
+</html>

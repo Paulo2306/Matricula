@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Listar Reservas</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Lista de Reservas</h2>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Data Reserva</th>
+                <th>Posição na Fila</th>
+                <th>Status</th>
+                <th>Aluno</th>
+                <th>Livro</th>
+                <th>Ações</th>
+            </tr>
+
+            <tr th:each="reserva : ${listaReservas}">
+                <td th:text="${reserva.id}"></td>
+                <td th:text="${reserva.dataReserva}"></td>
+                <td th:text="${reserva.posicaoFila}"></td>
+                <td th:text="${reserva.status}"></td>
+                <td th:text="${reserva.aluno.nome}"></td>
+                <td th:text="${reserva.livro.titulo}"></td>
+                <td>
+                    <a th:href="@{/editarReserva(id=${reserva.id})}">Editar</a>
+                    <a th:href="@{/excluirReserva(id=${reserva.id})}">Excluir</a>
+                </td>
+            </tr>
+        </table>
+
+        <div class="botoes-lista">
+            <a th:href="@{/cadastraReserva}">
+                <button type="button">Novo Cadastro</button>
+            </a>
+            <a th:href="@{/dashboard}">
+                <button type="button">Voltar para Listas</button>
+            </a>
+        </div>
+    </body>
+</html>

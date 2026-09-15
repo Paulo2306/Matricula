@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Listar Livros</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Lista de Livros</h2>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>ISBN</th>
+                <th>Edição</th>
+                <th>Capa</th>
+                <th>Disciplinas</th>
+                <th>Ações</th>
+            </tr>
+
+            <tr th:each="livro : ${listaLivros}">
+                <td th:text="${livro.id}"></td>
+                <td th:text="${livro.titulo}"></td>
+                <td th:text="${livro.autor}"></td>
+                <td th:text="${livro.isbn}"></td>
+                <td th:text="${livro.edicao}"></td>
+                <td th:text="${livro.capaImagem}"></td>
+                <td>
+                    <span th:each="disciplina, iterStat : ${livro.disciplinas}">
+                        <span th:text="${disciplina.nome}"></span>
+                        <span th:if="${!iterStat.last}">, </span>
+                    </span>
+                </td>
+                <td>
+                    <a th:href="@{/editarLivro(id=${livro.id})}">Editar</a>
+                    <a th:href="@{/excluirLivro(id=${livro.id})}">Excluir</a>
+                </td>
+            </tr>
+        </table>
+
+        <div class="botoes-lista">
+            <a th:href="@{/cadastraLivro}">
+                <button type="button">Novo Cadastro</button>
+            </a>
+            <a th:href="@{/dashboard}">
+                <button type="button">Voltar para Listas</button>
+            </a>
+        </div>
+    </body>
+</html>

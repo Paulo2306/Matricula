@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Edição de Livros</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Editar Livro</h2>
+
+        <form th:action="@{/atualizarLivro}" method="post">
+            <input type="hidden" name="id" th:value="${livro.id}">
+
+            <label>Título:</label>
+            <input required type="text" name="titulo" th:value="${livro.titulo}">
+
+            <label>Autor:</label>
+            <input required type="text" name="autor" th:value="${livro.autor}">
+
+            <label>ISBN:</label>
+            <input required type="text" name="isbn" th:value="${livro.isbn}">
+
+            <label>Edição:</label>
+            <input required type="text" name="edicao" th:value="${livro.edicao}">
+
+            <label>Capa:</label>
+            <input type="text" name="capaImagem" th:value="${livro.capaImagem}">
+
+            <label>Disciplinas:</label>
+            <select name="disciplinasIds" multiple>
+                <option th:each="disciplina : ${listaDisciplina}"
+                        th:value="${disciplina.id}"
+                        th:text="${disciplina.nome}"
+                        th:selected="${livro.disciplinas != null and #lists.contains(livro.disciplinas.![id], disciplina.id)}">
+                </option>
+            </select>
+
+            <button type="submit">Salvar</button>
+            <a th:href="@{/listaLivro}"><button type="button">Cancelar</button></a>
+        </form>
+    </body>
+</html>

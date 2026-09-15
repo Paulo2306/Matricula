@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Edição de Exemplares</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+    <body>
+        <h2>Editar Exemplar</h2>
+
+        <form th:action="@{/atualizarExemplar}" method="post">
+            <input type="hidden" name="id" th:value="${exemplar.id}">
+
+            <label>Tombo:</label>
+            <input required type="text" name="tombo" th:value="${exemplar.tombo}">
+
+            <label>Status:</label>
+            <select name="status" required>
+                <option value="" disabled>Selecione o status</option>
+                <option th:each="status : ${listaStatusExemplar}"
+                        th:value="${status}"
+                        th:text="${status}"
+                        th:selected="${exemplar.status != null and status == exemplar.status}">
+                </option>
+            </select>
+
+            <label>Livro:</label>
+            <select name="livroId" required>
+                <option value="" disabled>Selecione o livro</option>
+                <option th:each="livro : ${listaLivro}"
+                        th:value="${livro.id}"
+                        th:text="${livro.titulo}"
+                        th:selected="${exemplar.livro != null and livro.id == exemplar.livro.id}">
+                </option>
+            </select>
+
+            <button type="submit">Salvar</button>
+            <a th:href="@{/listaExemplar}"><button type="button">Cancelar</button></a>
+        </form>
+    </body>
+</html>
