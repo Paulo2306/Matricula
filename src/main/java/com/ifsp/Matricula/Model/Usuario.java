@@ -33,18 +33,18 @@ public class Usuario {
     private String fotoPerfil;
 
     @OneToOne
-    @JoinColumn(name = "aluno_id", unique = true)
-    private Aluno aluno;
+    @JoinColumn(name = "pessoa_id", unique = true)
+    private Pessoa pessoa;
 
     public Usuario() {
     }
 
-    public Usuario(String login, String senhaHash, Papel papel, String fotoPerfil, Aluno aluno) {
+    public Usuario(String login, String senhaHash, Papel papel, String fotoPerfil, Pessoa pessoa) {
         this.login = login;
         this.senhaHash = senhaHash;
         this.papel = papel;
         this.fotoPerfil = fotoPerfil;
-        this.aluno = aluno;
+        this.pessoa = pessoa;
     }
 
     public long getId() {
@@ -87,11 +87,11 @@ public class Usuario {
         this.fotoPerfil = fotoPerfil;
     }
 
-    public Aluno getAluno() {
-        return aluno;
+    public Pessoa getPessoa() {
+        return pessoa;
     }
 
-    public void setAluno(Aluno aluno) {
-        this.aluno = aluno;
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
     }
 }

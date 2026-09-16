@@ -11,7 +11,7 @@
 
             <input required type="text" placeholder="login" th:name="login">
 
-            <input required type="password" placeholder="senha hash" th:name="senhaHash">
+            <input required type="password" placeholder="senha" th:name="senhaHash">
 
             <select id="papel" name="papel" required>
                 <option value="" disabled selected>Selecione um papel</option>
@@ -23,11 +23,11 @@
 
             <input type="text" placeholder="foto perfil" th:name="fotoPerfil">
 
-            <select id="alunoId" name="alunoId">
-                <option value="" selected>Selecione um aluno (opcional)</option>
-                <option th:each="aluno : ${listaAluno}"
-                        th:value="${aluno.idPessoa}"
-                        th:text="${aluno.nome}">
+            <select id="pessoaId" name="pessoaId">
+                <option value="" selected>Selecione uma pessoa (opcional)</option>
+                <option th:each="pessoa : ${listaPessoa}"
+                        th:value="${pessoa.idPessoa}"
+                        th:text="${pessoa.nome + ' - ' + pessoa.email}">
                 </option>
             </select>
 

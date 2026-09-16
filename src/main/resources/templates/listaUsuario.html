@@ -14,7 +14,7 @@
                 <th>Login</th>
                 <th>Papel</th>
                 <th>Foto</th>
-                <th>Aluno</th>
+                <th>Pessoa</th>
                 <th>Ações</th>
             </tr>
 
@@ -23,7 +23,7 @@
                 <td th:text="${usuario.login}"></td>
                 <td th:text="${usuario.papel}"></td>
                 <td th:text="${usuario.fotoPerfil}"></td>
-                <td th:text="${usuario.aluno != null ? usuario.aluno.nome : 'Sem aluno'}"></td>
+                <td th:text="${usuario.pessoa != null ? usuario.pessoa.nome : 'Sem pessoa'}"></td>
                 <td>
                     <a th:href="@{/editarUsuario(id=${usuario.id})}">Editar</a>
                     <a th:href="@{/excluirUsuario(id=${usuario.id})}">Excluir</a>

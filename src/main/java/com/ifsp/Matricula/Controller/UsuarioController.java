@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ifsp.Matricula.Model.Aluno;
 import com.ifsp.Matricula.Model.Papel;
+import com.ifsp.Matricula.Model.Pessoa;
 import com.ifsp.Matricula.Model.Usuario;
-import com.ifsp.Matricula.Repository.AlunoRepository;
+import com.ifsp.Matricula.Repository.PessoaRepository;
 import com.ifsp.Matricula.Repository.UsuarioRepository;
 
 @Controller
@@ -22,11 +22,11 @@ public class UsuarioController {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private AlunoRepository alunoRepository;
+    private PessoaRepository pessoaRepository;
 
     @GetMapping("cadastraUsuario")
     public String cadastroUsuario(Model model) {
-        model.addAttribute("listaAluno", alunoRepository.findAll());
+        model.addAttribute("listaPessoa", pessoaRepository.findAll());
         model.addAttribute("listaPapel", Papel.values());
         return "cadastraUsuario";
     }
@@ -36,10 +36,10 @@ public class UsuarioController {
                               @RequestParam String senhaHash,
                               @RequestParam Papel papel,
                               @RequestParam(required = false) String fotoPerfil,
-                              @RequestParam(required = false) Long alunoId) {
+                              @RequestParam(required = false) Integer pessoaId) {
 
-        Aluno aluno = alunoId != null ? alunoRepository.findById(alunoId).orElse(null) : null;
-        usuarioRepository.save(new Usuario(login, senhaHash, papel, fotoPerfil, aluno));
+        Pessoa pessoa = pessoaId != null ? pessoaRepository.findById(pessoaId).orElse(null) : null;
+        usuarioRepository.save(new Usuario(login, senhaHash, papel, fotoPerfil, pessoa));
         return "redirect:/cadastraUsuario?sucesso=true";
     }
 
@@ -54,7 +54,7 @@ public class UsuarioController {
     public String editarUsuario(@RequestParam long id, Model model) {
         Usuario usuario = usuarioRepository.findById(id).orElse(null);
         model.addAttribute("usuario", usuario);
-        model.addAttribute("listaAluno", alunoRepository.findAll());
+        model.addAttribute("listaPessoa", pessoaRepository.findAll());
         model.addAttribute("listaPapel", Papel.values());
         return "editarUsuario";
     }
@@ -65,7 +65,7 @@ public class UsuarioController {
                                   @RequestParam String senhaHash,
                                   @RequestParam Papel papel,
                                   @RequestParam(required = false) String fotoPerfil,
-                                  @RequestParam(required = false) Long alunoId) {
+                                  @RequestParam(required = false) Integer pessoaId) {
 
         Usuario usuario = usuarioRepository.findById(id).orElse(null);
         if (usuario == null) {
@@ -76,7 +76,7 @@ public class UsuarioController {
         usuario.setSenhaHash(senhaHash);
         usuario.setPapel(papel);
         usuario.setFotoPerfil(fotoPerfil);
-        usuario.setAluno(alunoId != null ? alunoRepository.findById(alunoId).orElse(null) : null);
+        usuario.setPessoa(pessoaId != null ? pessoaRepository.findById(pessoaId).orElse(null) : null);
         usuarioRepository.save(usuario);
 
         return "redirect:/listaUsuario";

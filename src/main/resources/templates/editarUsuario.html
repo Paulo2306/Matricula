@@ -14,7 +14,7 @@
             <label>Login:</label>
             <input required type="text" name="login" th:value="${usuario.login}">
 
-            <label>Senha Hash:</label>
+            <label>Senha:</label>
             <input required type="text" name="senhaHash" th:value="${usuario.senhaHash}">
 
             <label>Papel:</label>
@@ -30,13 +30,13 @@
             <label>Foto de Perfil:</label>
             <input type="text" name="fotoPerfil" th:value="${usuario.fotoPerfil}">
 
-            <label>Aluno:</label>
-            <select name="alunoId">
-                <option value="">Sem aluno</option>
-                <option th:each="aluno : ${listaAluno}"
-                        th:value="${aluno.idPessoa}"
-                        th:text="${aluno.nome}"
-                        th:selected="${usuario.aluno != null and aluno.idPessoa == usuario.aluno.idPessoa}">
+            <label>Pessoa:</label>
+            <select name="pessoaId">
+                <option value="">Sem pessoa</option>
+                <option th:each="pessoa : ${listaPessoa}"
+                        th:value="${pessoa.idPessoa}"
+                        th:text="${pessoa.nome + ' - ' + pessoa.email}"
+                        th:selected="${usuario.pessoa != null and pessoa.idPessoa == usuario.pessoa.idPessoa}">
                 </option>
             </select>
 
