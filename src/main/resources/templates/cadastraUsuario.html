@@ -7,9 +7,11 @@
     </head>
     <body>
         <h2>Cadastro de Usuários</h2>
-        <form th:method="POST" th:action="@{/Usuarios}">
+        <p th:if="${erroLogin}" class="mensagem-erro">Este login já está em uso. Escolha outro.</p>
 
-            <input required type="text" placeholder="login" th:name="login">
+        <form th:method="POST" th:action="@{/Usuarios}" enctype="multipart/form-data">
+
+            <input required type="text" placeholder="login" th:name="login" th:value="${loginInformado}">
 
             <input required type="password" placeholder="senha" th:name="senhaHash">
 
@@ -21,15 +23,16 @@
                 </option>
             </select>
 
-            <input type="text" placeholder="foto perfil" th:name="fotoPerfil">
+            <input type="file" name="imagem">
 
-            <select id="pessoaId" name="pessoaId">
-                <option value="" selected>Selecione uma pessoa (opcional)</option>
+            <select required id="pessoa" name="pessoa">
+                <option value="" disabled selected>Selecione uma pessoa</option>
                 <option th:each="pessoa : ${listaPessoa}"
                         th:value="${pessoa.idPessoa}"
                         th:text="${pessoa.nome + ' - ' + pessoa.email}">
                 </option>
             </select>
+
 
             <button type="submit">Cadastrar</button>
             <a th:href="@{/listaUsuario}">

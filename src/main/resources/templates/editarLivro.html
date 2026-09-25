@@ -8,7 +8,7 @@
     <body>
         <h2>Editar Livro</h2>
 
-        <form th:action="@{/atualizarLivro}" method="post">
+        <form th:action="@{/atualizarLivro}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" th:value="${livro.id}">
 
             <label>Título:</label>
@@ -24,16 +24,28 @@
             <input required type="text" name="edicao" th:value="${livro.edicao}">
 
             <label>Capa:</label>
-            <input type="text" name="capaImagem" th:value="${livro.capaImagem}">
+              <img th:if="${livro.capaImagem != null and !#strings.isEmpty(livro.capaImagem)}"
+                  th:src="${livro.capaImagem}" alt="Capa atual do livro" width="100" height="140">
+              <input type="file" name="imagem" accept="image/*">
 
             <label>Disciplinas:</label>
-            <select name="disciplinasIds" multiple>
-                <option th:each="disciplina : ${listaDisciplina}"
+
+            <div class="lista-checkbox">
+                <div class="checkbox-item"
+                    th:each="disciplina : ${listaDisciplina}">
+
+                    <input type="checkbox"
+                        name="disciplinasIds"
                         th:value="${disciplina.id}"
-                        th:text="${disciplina.nome}"
-                        th:selected="${livro.disciplinas != null and #lists.contains(livro.disciplinas.![id], disciplina.id)}">
-                </option>
-            </select>
+                        th:id="'disciplina-' + ${disciplina.id}"
+                        th:checked="${livro.disciplinas != null and #lists.contains(livro.disciplinas.![id], disciplina.id)}">
+
+                    <label th:for="'disciplina-' + ${disciplina.id}"
+                        th:text="${disciplina.nome}">
+                    </label>
+
+                </div>
+            </div>
 
             <button type="submit">Salvar</button>
             <a th:href="@{/listaLivro}"><button type="button">Cancelar</button></a>

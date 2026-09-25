@@ -11,4 +11,5 @@ import com.ifsp.Matricula.Model.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
 	Optional<Usuario> findByLogin(String login);
+	Optional<Usuario> findByPessoa_IdPessoa(Integer idPessoa);
 }

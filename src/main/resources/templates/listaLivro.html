@@ -26,7 +26,8 @@
                 <td th:text="${livro.autor}"></td>
                 <td th:text="${livro.isbn}"></td>
                 <td th:text="${livro.edicao}"></td>
-                <td th:text="${livro.capaImagem}"></td>
+                <td><img th:if="${livro.capaImagem != null and !#strings.isEmpty(livro.capaImagem)}"
+                         th:src="${livro.capaImagem}" th:alt="${livro.titulo}" width="100" height="140"></td>
                 <td>
                     <span th:each="disciplina, iterStat : ${livro.disciplinas}">
                         <span th:text="${disciplina.nome}"></span>

@@ -7,8 +7,9 @@
     </head>
     <body>
         <h2>Editar Usuário</h2>
+        <p th:if="${erroLogin}" class="mensagem-erro">Este login já está em uso por outro usuário. Escolha outro.</p>
 
-        <form th:action="@{/atualizarUsuario}" method="post">
+        <form th:action="@{/atualizarUsuario}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" th:value="${usuario.id}">
 
             <label>Login:</label>
@@ -28,10 +29,12 @@
             </select>
 
             <label>Foto de Perfil:</label>
-            <input type="text" name="fotoPerfil" th:value="${usuario.fotoPerfil}">
+              <img th:if="${usuario.fotoPerfil != null and !#strings.isEmpty(usuario.fotoPerfil)}"
+                  th:src="${usuario.fotoPerfil}" alt="Foto de perfil atual" width="100" height="100">
+              <input type="file" name="imagem" accept="image/*">
 
             <label>Pessoa:</label>
-            <select name="pessoaId">
+            <select name="pessoa">
                 <option value="">Sem pessoa</option>
                 <option th:each="pessoa : ${listaPessoa}"
                         th:value="${pessoa.idPessoa}"
