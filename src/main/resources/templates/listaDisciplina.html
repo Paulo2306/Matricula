@@ -43,6 +43,7 @@
                             <th>Nome</th>
                             <th>Carga Horária</th>
                             <th>Curso</th>
+                            <th>Livros</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -52,6 +53,12 @@
                             <td th:text="${Disciplina.nome}"></td>
                             <td th:text="${Disciplina.cargaHoraria}"></td>
                             <td th:text="${Disciplina.curso != null ? Disciplina.curso.nome : 'Nenhum'}"></td>
+                            <td>
+                                <span th:each="livro, iterStat : ${Disciplina.livros}">
+                                    <span th:text="${livro.titulo}"></span><span th:if="${!iterStat.last}">, </span>
+                                </span>
+                                <span th:if="${#lists.isEmpty(Disciplina.livros)}">Nenhum</span>
+                            </td>
                             <td>
                                 <div class="acoes">
                                     <a th:href="@{/editarDisciplina(id=${Disciplina.id})}" class="acao-editar">Editar</a>

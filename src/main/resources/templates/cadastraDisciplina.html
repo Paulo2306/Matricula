@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <title>Cadastro de Disciplinas</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" th:href="@{/css/estilo.css}">
-    </head>
-    <body>
+
+<head>
+    <title>Cadastro de Disciplinas</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+
+<body>
     <header>
         <div class="header-inner">
             <a th:href="@{/dashboard}" class="header-logo">
@@ -30,11 +32,17 @@
 
             <select id="curso" name="curso" required>
                 <option value="" disabled selected>Selecione um Curso</option>
-                <option th:each="curso : ${listaCurso}"
-                        th:value="${curso.id}"
-                        th:text="${curso.nome}">
+                <option th:each="curso : ${listaCurso}" th:value="${curso.id}" th:text="${curso.nome}">
                 </option>
             </select>
+
+            <label>Livros:</label>
+            <div class="lista-checkbox">
+                <div class="checkbox-item" th:each="livro : ${listaLivros}">
+                    <input type="checkbox" name="livrosIds" th:value="${livro.id}" th:id="'livro-' + ${livro.id}">
+                    <label th:for="'livro-' + ${livro.id}" th:text="${livro.titulo}"></label>
+                </div>
+            </div>
 
             <button type="submit">Cadastrar</button>
             <a th:href="@{/listaDisciplina}">
@@ -47,5 +55,6 @@
 
         </div>
     </main>
-    </body>
+</body>
+
 </html>

@@ -7,7 +7,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.JoinTable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Disciplina")
@@ -27,6 +31,14 @@ public class Disciplina {
     @ManyToOne
     @JoinColumn(name = "curso_id")
     private Curso curso;
+
+    @ManyToMany
+    @JoinTable(
+        name = "livro_disciplina",
+        joinColumns = @JoinColumn(name = "disciplina_id"),
+        inverseJoinColumns = @JoinColumn(name = "livro_id")
+    )
+    private List<Livro> livros = new ArrayList<>();
 
     public Disciplina(String nome, int cargaHoraria, Curso curso) {
         this.nome = nome;
@@ -69,7 +81,12 @@ public class Disciplina {
         this.curso = curso;
     }
 
+    public List<Livro> getLivros() {
+        return livros;
+    }
 
-
+    public void setLivros(List<Livro> livros) {
+        this.livros = livros;
+    }
 
 }
