@@ -3,10 +3,24 @@
     <head>
         <title>Listar Professores</title>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" th:href="@{/css/estilo.css}">
     </head>
     <body>
-        <h2>Lista de Professores</h2>
+    <header>
+        <div class="header-inner">
+            <a th:href="@{/dashboard}" class="header-logo">
+                <span class="logo-icon">SM</span>
+                Sistema Matrícula
+            </a>
+            <nav>
+                <a th:href="@{/dashboard}">Início</a>
+                <a th:href="@{/login}">Sair</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
         <div th:if="${erro}" class="mensagem erro">
             <span th:text="${erro}"></span>
         </div>
@@ -14,47 +28,57 @@
         <div th:if="${sucesso}" class="mensagem sucesso">
             <span th:text="${sucesso}"></span>
         </div>
-        <table>
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Idade</th>
-            <th>Endereço</th>
-            <th>Telefone</th>
-            <th>SIAPE</th>
-            <th>Área</th>
-            <th>Formação</th>
-            <th>Ações</th>
-        </tr>
 
-        <tr th:each="professor : ${listaProfessores}">
-            <td th:text="${professor.idPessoa}"></td>
-            <td th:text="${professor.nome}"></td>
-            <td th:text="${professor.email}"></td>
-            <td th:text="${professor.idade}"></td>
-            <td th:text="${professor.endereco}"></td>
-            <td th:text="${professor.telefone}"></td>
-            <td th:text="${professor.siape}"></td>
-            <td th:text="${professor.area}"></td>
-            <td th:text="${professor.formacao}"></td>
-
-            <td>
-                <a th:href="@{/editarProfessor(id=${professor.idPessoa})}">Editar</a>
-                <a th:href="@{/excluirProfessor(id=${professor.idPessoa})}">Excluir</a>
-            </td>
-        </tr>
-            <div class="botoes-lista">
-
-                <a th:href="@{/cadastraProfessor}">
-                    <button type="button">Novo Cadastro</button>
-                </a>
-
-                <a th:href="@{/dashboard}">
-                    <button type="button">Voltar para Listas</button>
-                </a>
-
+        <div class="lista-container">
+            <div class="lista-toolbar">
+                <h2>Professores</h2>
+                <a th:href="@{/cadastraProfessor}" class="btn-novo">Novo Professor</a>
             </div>
-        </table>
+
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Idade</th>
+                            <th>Endereço</th>
+                            <th>Telefone</th>
+                            <th>SIAPE</th>
+                            <th>Área</th>
+                            <th>Formação</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="professor : ${listaProfessores}">
+                            <td th:text="${professor.idPessoa}"></td>
+                            <td th:text="${professor.nome}"></td>
+                            <td th:text="${professor.email}"></td>
+                            <td th:text="${professor.idade}"></td>
+                            <td th:text="${professor.endereco}"></td>
+                            <td th:text="${professor.telefone}"></td>
+                            <td th:text="${professor.siape}"></td>
+                            <td th:text="${professor.area}"></td>
+                            <td th:text="${professor.formacao}"></td>
+                            <td>
+                                <div class="acoes">
+                                    <a th:href="@{/editarProfessor(id=${professor.idPessoa})}" class="acao-editar">Editar</a>
+                                    <a th:href="@{/excluirProfessor(id=${professor.idPessoa})}" class="acao-excluir">Excluir</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="lista-footer">
+                <a th:href="@{/dashboard}">
+                    <button type="button" class="btn-secundario">← Voltar para Listas</button>
+                </a>
+            </div>
+        </div>
+    </main>
     </body>
 </html>

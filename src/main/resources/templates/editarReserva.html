@@ -3,9 +3,24 @@
     <head>
         <title>Edição de Reservas</title>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" th:href="@{/css/estilo.css}">
     </head>
     <body>
+    <header>
+        <div class="header-inner">
+            <a th:href="@{/dashboard}" class="header-logo">
+                <span class="logo-icon">SM</span>
+                Sistema Matrícula
+            </a>
+            <nav>
+                <a th:href="@{/dashboard}">Início</a>
+                <a th:href="@{/login}">Sair</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
         <h2>Editar Reserva</h2>
 
         <form th:action="@{/atualizarReserva}" method="post">
@@ -50,5 +65,6 @@
             <button type="submit">Salvar</button>
             <a th:href="@{/listaReserva}"><button type="button">Cancelar</button></a>
         </form>
+    </main>
     </body>
 </html>

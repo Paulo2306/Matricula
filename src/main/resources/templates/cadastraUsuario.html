@@ -3,9 +3,24 @@
     <head>
         <title>Cadastro de Usuários</title>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" th:href="@{/css/estilo.css}">
     </head>
     <body>
+    <header>
+        <div class="header-inner">
+            <a th:href="@{/dashboard}" class="header-logo">
+                <span class="logo-icon">SM</span>
+                Sistema Matrícula
+            </a>
+            <nav>
+                <a th:href="@{/dashboard}">Início</a>
+                <a th:href="@{/login}">Sair</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
         <h2>Cadastro de Usuários</h2>
         <p th:if="${erroLogin}" class="mensagem-erro">Este login já está em uso. Escolha outro.</p>
 
@@ -43,5 +58,6 @@
         <div th:if="${param.sucesso}" class="mensagem-sucesso">
             <p>Cadastro realizado com sucesso!</p>
         </div>
+    </main>
     </body>
 </html>

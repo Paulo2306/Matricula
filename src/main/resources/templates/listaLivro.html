@@ -3,51 +3,76 @@
     <head>
         <title>Listar Livros</title>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" th:href="@{/css/estilo.css}">
     </head>
     <body>
-        <h2>Lista de Livros</h2>
-
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Título</th>
-                <th>Autor</th>
-                <th>ISBN</th>
-                <th>Edição</th>
-                <th>Capa</th>
-                <th>Disciplinas</th>
-                <th>Ações</th>
-            </tr>
-
-            <tr th:each="livro : ${listaLivros}">
-                <td th:text="${livro.id}"></td>
-                <td th:text="${livro.titulo}"></td>
-                <td th:text="${livro.autor}"></td>
-                <td th:text="${livro.isbn}"></td>
-                <td th:text="${livro.edicao}"></td>
-                <td><img th:if="${livro.capaImagem != null and !#strings.isEmpty(livro.capaImagem)}"
-                         th:src="${livro.capaImagem}" th:alt="${livro.titulo}" width="100" height="140"></td>
-                <td>
-                    <span th:each="disciplina, iterStat : ${livro.disciplinas}">
-                        <span th:text="${disciplina.nome}"></span>
-                        <span th:if="${!iterStat.last}">, </span>
-                    </span>
-                </td>
-                <td>
-                    <a th:href="@{/editarLivro(id=${livro.id})}">Editar</a>
-                    <a th:href="@{/excluirLivro(id=${livro.id})}">Excluir</a>
-                </td>
-            </tr>
-        </table>
-
-        <div class="botoes-lista">
-            <a th:href="@{/cadastraLivro}">
-                <button type="button">Novo Cadastro</button>
+    <header>
+        <div class="header-inner">
+            <a th:href="@{/dashboard}" class="header-logo">
+                <span class="logo-icon">SM</span>
+                Sistema Matrícula
             </a>
-            <a th:href="@{/dashboard}">
-                <button type="button">Voltar para Listas</button>
-            </a>
+            <nav>
+                <a th:href="@{/dashboard}">Início</a>
+                <a th:href="@{/login}">Sair</a>
+            </nav>
         </div>
+    </header>
+
+    <main>
+        <div class="lista-container">
+            <div class="lista-toolbar">
+                <h2>Livros</h2>
+                <a th:href="@{/cadastraLivro}" class="btn-novo">Novo Livro</a>
+            </div>
+
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Autor</th>
+                            <th>ISBN</th>
+                            <th>Edição</th>
+                            <th>Capa</th>
+                            <th>Disciplinas</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="livro : ${listaLivros}">
+                            <td th:text="${livro.id}"></td>
+                            <td th:text="${livro.titulo}"></td>
+                            <td th:text="${livro.autor}"></td>
+                            <td th:text="${livro.isbn}"></td>
+                            <td th:text="${livro.edicao}"></td>
+                            <td><img th:if="${livro.capaImagem != null and !#strings.isEmpty(livro.capaImagem)}"
+                                     th:src="${livro.capaImagem}" th:alt="${livro.titulo}" width="100" height="140"></td>
+                            <td>
+                                <span th:each="disciplina, iterStat : ${livro.disciplinas}">
+                                    <span th:text="${disciplina.nome}"></span>
+                                    <span th:if="${!iterStat.last}">, </span>
+                                </span>
+                            </td>
+                            <td>
+                                <div class="acoes">
+                                    <a th:href="@{/editarLivro(id=${livro.id})}" class="acao-editar">Editar</a>
+                                    <a th:href="@{/excluirLivro(id=${livro.id})}" class="acao-excluir">Excluir</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="lista-footer">
+                <a th:href="@{/dashboard}">
+                    <button type="button" class="btn-secundario">← Voltar para Listas</button>
+                </a>
+            </div>
+        </div>
+    </main>
     </body>
 </html>

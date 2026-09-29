@@ -3,47 +3,72 @@
     <head>
         <title>Listar Empréstimos</title>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" th:href="@{/css/estilo.css}">
     </head>
     <body>
-        <h2>Lista de Empréstimos</h2>
-
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Data Retirada</th>
-                <th>Data Prevista</th>
-                <th>Data Devolução</th>
-                <th>Status</th>
-                <th>Renovações</th>
-                <th>Aluno</th>
-                <th>Exemplar</th>
-                <th>Ações</th>
-            </tr>
-
-            <tr th:each="emprestimo : ${listaEmprestimos}">
-                <td th:text="${emprestimo.id}"></td>
-                <td th:text="${emprestimo.dataRetirada}"></td>
-                <td th:text="${emprestimo.dataPrevista}"></td>
-                <td th:text="${emprestimo.dataDevolucao}"></td>
-                <td th:text="${emprestimo.status}"></td>
-                <td th:text="${emprestimo.renovacoes}"></td>
-                <td th:text="${emprestimo.aluno.nome}"></td>
-                <td th:text="${emprestimo.exemplar.tombo}"></td>
-                <td>
-                    <a th:href="@{/editarEmprestimo(id=${emprestimo.id})}">Editar</a>
-                    <a th:href="@{/excluirEmprestimo(id=${emprestimo.id})}">Excluir</a>
-                </td>
-            </tr>
-        </table>
-
-        <div class="botoes-lista">
-            <a th:href="@{/cadastraEmprestimo}">
-                <button type="button">Novo Cadastro</button>
+    <header>
+        <div class="header-inner">
+            <a th:href="@{/dashboard}" class="header-logo">
+                <span class="logo-icon">SM</span>
+                Sistema Matrícula
             </a>
-            <a th:href="@{/dashboard}">
-                <button type="button">Voltar para Listas</button>
-            </a>
+            <nav>
+                <a th:href="@{/dashboard}">Início</a>
+                <a th:href="@{/login}">Sair</a>
+            </nav>
         </div>
+    </header>
+
+    <main>
+        <div class="lista-container">
+            <div class="lista-toolbar">
+                <h2>Empréstimos</h2>
+                <a th:href="@{/cadastraEmprestimo}" class="btn-novo">Novo Empréstimo</a>
+            </div>
+
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Data Retirada</th>
+                            <th>Data Prevista</th>
+                            <th>Data Devolução</th>
+                            <th>Status</th>
+                            <th>Renovações</th>
+                            <th>Aluno</th>
+                            <th>Exemplar</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="emprestimo : ${listaEmprestimos}">
+                            <td th:text="${emprestimo.id}"></td>
+                            <td th:text="${emprestimo.dataRetirada}"></td>
+                            <td th:text="${emprestimo.dataPrevista}"></td>
+                            <td th:text="${emprestimo.dataDevolucao}"></td>
+                            <td th:text="${emprestimo.status}"></td>
+                            <td th:text="${emprestimo.renovacoes}"></td>
+                            <td th:text="${emprestimo.aluno.nome}"></td>
+                            <td th:text="${emprestimo.exemplar.tombo}"></td>
+                            <td>
+                                <div class="acoes">
+                                    <a th:href="@{/editarEmprestimo(id=${emprestimo.id})}" class="acao-editar">Editar</a>
+                                    <a th:href="@{/excluirEmprestimo(id=${emprestimo.id})}" class="acao-excluir">Excluir</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="lista-footer">
+                <a th:href="@{/dashboard}">
+                    <button type="button" class="btn-secundario">← Voltar para Listas</button>
+                </a>
+            </div>
+        </div>
+    </main>
     </body>
 </html>
