@@ -1,5 +1,12 @@
 package com.ifsp.Matricula.Model;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,36 +20,39 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Usuario")
-public class Usuario {
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "login", nullable = false, unique = true)
-    private String login;
+    // Renomeado de 'login' para 'username'
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
 
-    @Column(name = "senhaHash", nullable = false)
-    private String senhaHash;
+    // Renomeado de 'senhaHash' para 'password'
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "papel", nullable = false)
-    private Papel papel;
+    @Column(name = "usuarioRole", nullable = false)
+    private UsuarioRole usuarioRole = UsuarioRole.USER;
 
     @Column(name = "fotoPerfil")
     private String fotoPerfil;
 
     @OneToOne
-    @JoinColumn(name = "pessoa_id", unique = true)
+    @JoinColumn(name = "pessoa_id", unique = true, nullable = true)
     private Pessoa pessoa;
 
     public Usuario() {
     }
 
-    public Usuario(String login, String senhaHash, Papel papel, String fotoPerfil, Pessoa pessoa) {
-        this.login = login;
-        this.senhaHash = senhaHash;
-        this.papel = papel;
+    // Construtor atualizado com os novos nomes
+    public Usuario(String username, String password, UsuarioRole papel, String fotoPerfil, Pessoa pessoa) {
+        this.username = username;
+        this.password = password;
+        this.usuarioRole = papel;
         this.fotoPerfil = fotoPerfil;
         this.pessoa = pessoa;
     }
@@ -55,28 +65,20 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getSenhaHash() {
-        return senhaHash;
+    public UsuarioRole getPapel() {
+        return usuarioRole;
     }
 
-    public void setSenhaHash(String senhaHash) {
-        this.senhaHash = senhaHash;
-    }
-
-    public Papel getPapel() {
-        return papel;
-    }
-
-    public void setPapel(Papel papel) {
-        this.papel = papel;
+    public void setPapel(UsuarioRole papel) {
+        this.usuarioRole = papel;
     }
 
     public String getFotoPerfil() {
@@ -93,5 +95,44 @@ public class Usuario {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.usuarioRole == UsuarioRole.ADMIN)
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USUARIO"));
+        else
+            return List.of(new SimpleGrantedAuthority("ROLE_USUARIO"));
+    }
+
+    // Métodos do UserDetails simplificados, pois os campos agora têm exatamente os mesmos nomes
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

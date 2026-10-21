@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -26,11 +27,11 @@
 
         <form th:method="POST" th:action="@{/Usuarios}" enctype="multipart/form-data">
 
-            <input required type="text" placeholder="login" th:name="login" th:value="${loginInformado}">
+            <input required type="text" placeholder="login" th:name="username" th:value="${loginInformado}">
 
-            <input required type="password" placeholder="senha" th:name="senhaHash">
+            <input required type="password" placeholder="senha" th:name="password">
 
-            <select id="papel" name="papel" required>
+            <select id="papel" name="papel" >
                 <option value="" disabled selected>Selecione um papel</option>
                 <option th:each="papel : ${listaPapel}"
                         th:value="${papel}"
@@ -40,7 +41,7 @@
 
             <input type="file" name="imagem">
 
-            <select required id="pessoa" name="pessoa">
+            <select  id="pessoa" name="pessoa">
                 <option value="" disabled selected>Selecione uma pessoa</option>
                 <option th:each="pessoa : ${listaPessoa}"
                         th:value="${pessoa.idPessoa}"
@@ -61,3 +62,4 @@
     </main>
     </body>
 </html>
+

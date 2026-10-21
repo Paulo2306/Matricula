@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ifsp.Matricula.Model.Papel;
+import com.ifsp.Matricula.Model.UsuarioRole;
 import com.ifsp.Matricula.Model.Pessoa;
 import com.ifsp.Matricula.Model.Usuario;
 import com.ifsp.Matricula.Repository.PessoaRepository;
@@ -32,45 +33,58 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired 
+    private PasswordEncoder passwordEncoder;
+
+    @GetMapping("/login")
+    public String formLogin() {
+        return "login";
+    }
+
     @GetMapping("cadastraUsuario")
     public String cadastroUsuario(Model model) {
         model.addAttribute("listaPessoa", listarPessoasDisponiveis(null));
-        model.addAttribute("listaPapel", Papel.values());
+        model.addAttribute("listaUsuarioRole", UsuarioRole.values());
         return "cadastraUsuario";
     }
 
     @PostMapping("Usuarios")
-    public String saveUsuarios(@RequestParam String login,
-                              @RequestParam String senhaHash,
-                              @RequestParam Papel papel,
-                              @RequestParam(value = "imagem", required = false) MultipartFile fotoPerfil,
-                              @RequestParam Pessoa pessoa,
-                              Model model) {
+    public String saveUsuarios(@RequestParam String username,
+                                @RequestParam String password,
+                                @RequestParam(required = false) UsuarioRole usuarioRole,
+                                @RequestParam(value = "imagem", required = false) MultipartFile fotoPerfil,
+                                @RequestParam(required = false) Pessoa pessoa,
+                                Model model) {
 
-        if (usuarioRepository.findByLogin(login).isPresent()) {
+        if (usuarioRepository.findByUsername(username).isPresent()) {
             model.addAttribute("listaPessoa", listarPessoasDisponiveis(null));
-            model.addAttribute("listaPapel", Papel.values());
-            model.addAttribute("loginInformado", login);
+            model.addAttribute("listausuarioRole", UsuarioRole.values());
+            model.addAttribute("loginInformado", username);
             model.addAttribute("erroLogin", true);
             return "cadastraUsuario";
         }
 
-        try{
-           Usuario usuario = new Usuario();
-           if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
-               usuario.setFotoPerfil(usuarioService.salvarImagem(fotoPerfil));
-           }
-           usuario.setLogin(login);
-           usuario.setSenhaHash(senhaHash);
-           usuario.setPapel(papel);
-           usuario.setPessoa(pessoa);
-           usuarioRepository.save(usuario);
-           return "redirect:/cadastraUsuario?sucesso=true";
+        try {
+            Usuario usuario = new Usuario();
+            
+            if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
+                usuario.setFotoPerfil(usuarioService.salvarImagem(fotoPerfil));
+            }
+            
+            usuario.setUsername(username);
+            // Criptografa a senha com BCrypt antes de salvar
+            usuario.setPassword(passwordEncoder.encode(password));
+            
+            usuario.setPapel(usuarioRole != null ? usuarioRole : UsuarioRole.USER);
+            usuario.setPessoa(pessoa);
+            
+            usuarioRepository.save(usuario);
+            return "redirect:/cadastraUsuario?sucesso=true";
+            
         } catch (IOException e) {
             return "Erro ao salvar o arquivo: " + e.getMessage();
         }
     }
-
 
     @GetMapping("listaUsuario")
     public String listaUsuarios(Model model) {
@@ -84,33 +98,33 @@ public class UsuarioController {
         Usuario usuario = usuarioRepository.findById(id).orElse(null);
         model.addAttribute("usuario", usuario);
         model.addAttribute("listaPessoa", listarPessoasDisponiveis(id));
-        model.addAttribute("listaPapel", Papel.values());
+        model.addAttribute("listausuarioRole", UsuarioRole.values());
         return "editarUsuario";
     }
 
     @PostMapping("atualizarUsuario")
     public String atualizarUsuario(@RequestParam long id,
-                                  @RequestParam String login,
-                                  @RequestParam String senhaHash,
-                                  @RequestParam Papel papel,
-                                  @RequestParam(value = "imagem", required = false) MultipartFile fotoPerfil,
-                                  @RequestParam(required = false) Pessoa pessoa,
-                                  Model model) {
+                                    @RequestParam String username,
+                                    @RequestParam String password,
+                                    @RequestParam UsuarioRole usuarioRole,
+                                    @RequestParam(value = "imagem", required = false) MultipartFile fotoPerfil,
+                                    @RequestParam(required = false) Pessoa pessoa,
+                                    Model model) {
 
         Usuario usuario = usuarioRepository.findById(id).orElse(null);
         if (usuario == null) {
             return "redirect:/listaUsuario";
         }
 
-        Usuario usuarioComMesmoLogin = usuarioRepository.findByLogin(login).orElse(null);
+        Usuario usuarioComMesmoLogin = usuarioRepository.findByUsername(username).orElse(null);
         if (usuarioComMesmoLogin != null && usuarioComMesmoLogin.getId() != id) {
-            usuario.setLogin(login);
-            usuario.setSenhaHash(senhaHash);
-            usuario.setPapel(papel);
+            usuario.setUsername(username);
+            usuario.setPassword(passwordEncoder.encode(password));
+            usuario.setPapel(usuarioRole);
             usuario.setPessoa(pessoa);
             model.addAttribute("usuario", usuario);
             model.addAttribute("listaPessoa", listarPessoasDisponiveis(id));
-            model.addAttribute("listaPapel", Papel.values());
+            model.addAttribute("listausuarioRole", UsuarioRole.values());
             model.addAttribute("erroLogin", true);
             return "editarUsuario";
         }
@@ -119,19 +133,21 @@ public class UsuarioController {
                 ? usuarioRepository.findByPessoa_IdPessoa(pessoa.getIdPessoa()).orElse(null)
                 : null;
         if (usuarioComMesmoVinculo != null && usuarioComMesmoVinculo.getId() != id) {
-            usuario.setLogin(login);
-            usuario.setSenhaHash(senhaHash);
-            usuario.setPapel(papel);
+            usuario.setUsername(username);
+            usuario.setPassword(passwordEncoder.encode(password));
+            usuario.setPapel(usuarioRole);
             model.addAttribute("usuario", usuario);
             model.addAttribute("listaPessoa", listarPessoasDisponiveis(id));
-            model.addAttribute("listaPapel", Papel.values());
+            model.addAttribute("listausuarioRole", UsuarioRole.values());
             model.addAttribute("erroPessoa", true);
             return "editarUsuario";
         }
 
-        usuario.setLogin(login);
-        usuario.setSenhaHash(senhaHash);
-        usuario.setPapel(papel);
+        usuario.setUsername(username);
+        // Criptografa a nova senha ao atualizar também
+        usuario.setPassword(passwordEncoder.encode(password));
+        usuario.setPapel(usuarioRole);
+        
         if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
             try {
                 usuario.setFotoPerfil(usuarioService.salvarImagem(fotoPerfil));
@@ -139,6 +155,7 @@ public class UsuarioController {
                 return "Erro ao salvar o arquivo: " + e.getMessage();
             }
         }
+        
         usuario.setPessoa(pessoa);
         usuarioRepository.save(usuario);
 
