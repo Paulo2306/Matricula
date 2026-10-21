@@ -168,6 +168,42 @@ header nav a.nav-active {
     color: var(--green-700);
 }
 
+.usuario-logado {
+    padding: 8px 12px;
+    color: var(--gray-600);
+    font-size: 14px;
+}
+
+.usuario-logado strong {
+    color: var(--gray-900);
+}
+
+.logout-form {
+    display: inline-flex;
+    width: auto;
+    max-width: none;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.logout-button {
+    height: auto;
+    padding: 8px 16px;
+    background: transparent;
+    color: var(--gray-600);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.logout-button:hover {
+    background: var(--gray-50);
+    color: var(--gray-900);
+    box-shadow: none;
+    transform: none;
+}
+
 /* ---------- Main Content ---------- */
 
 main {

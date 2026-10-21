@@ -2,7 +2,9 @@ package com.ifsp.Matricula.Model;
 
 public enum UsuarioRole {
     ADMIN("admin"),
-    USER("usuario");
+    USER("usuario"),
+    ALUNO("aluno"),
+    PROFESSOR("professor");
 
     private String role;
 

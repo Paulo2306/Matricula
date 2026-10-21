@@ -15,8 +15,9 @@
                 Sistema Matrícula
             </a>
             <nav>
+                <span class="usuario-logado">Olá, <strong th:text="${username}">usuário</strong></span>
                 <a th:href="@{/dashboard}">Início</a>
-                <a th:href="@{/login}">Sair</a>
+                <span th:replace="~{fragments/logout :: logout}"></span>
             </nav>
         </div>
     </header>

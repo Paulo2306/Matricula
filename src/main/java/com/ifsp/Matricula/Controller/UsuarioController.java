@@ -44,23 +44,28 @@ public class UsuarioController {
     @GetMapping("cadastraUsuario")
     public String cadastroUsuario(Model model) {
         model.addAttribute("listaPessoa", listarPessoasDisponiveis(null));
-        model.addAttribute("listaUsuarioRole", UsuarioRole.values());
         return "cadastraUsuario";
     }
 
     @PostMapping("Usuarios")
-    public String saveUsuarios(@RequestParam String username,
-                                @RequestParam String password,
-                                @RequestParam(required = false) UsuarioRole usuarioRole,
+    public String saveUsuarios(@RequestParam("username") String username,
+                                @RequestParam("password") String password,
                                 @RequestParam(value = "imagem", required = false) MultipartFile fotoPerfil,
-                                @RequestParam(required = false) Pessoa pessoa,
+                                @RequestParam(value = "pessoa", required = false) Integer pessoaId,
                                 Model model) {
 
         if (usuarioRepository.findByUsername(username).isPresent()) {
             model.addAttribute("listaPessoa", listarPessoasDisponiveis(null));
-            model.addAttribute("listausuarioRole", UsuarioRole.values());
             model.addAttribute("loginInformado", username);
             model.addAttribute("erroLogin", true);
+            return "cadastraUsuario";
+        }
+
+        Pessoa pessoa = pessoaId == null ? null : pessoaRepository.findById(pessoaId).orElse(null);
+        if (pessoaId != null && pessoa == null) {
+            model.addAttribute("listaPessoa", listarPessoasDisponiveis(null));
+            model.addAttribute("loginInformado", username);
+            model.addAttribute("erroPessoa", true);
             return "cadastraUsuario";
         }
 
@@ -75,7 +80,7 @@ public class UsuarioController {
             // Criptografa a senha com BCrypt antes de salvar
             usuario.setPassword(passwordEncoder.encode(password));
             
-            usuario.setPapel(usuarioRole != null ? usuarioRole : UsuarioRole.USER);
+            usuario.setPapel(UsuarioRole.USER);
             usuario.setPessoa(pessoa);
             
             usuarioRepository.save(usuario);
@@ -98,17 +103,17 @@ public class UsuarioController {
         Usuario usuario = usuarioRepository.findById(id).orElse(null);
         model.addAttribute("usuario", usuario);
         model.addAttribute("listaPessoa", listarPessoasDisponiveis(id));
-        model.addAttribute("listausuarioRole", UsuarioRole.values());
+        model.addAttribute("listaUsuarioRole", UsuarioRole.values());
         return "editarUsuario";
     }
 
     @PostMapping("atualizarUsuario")
     public String atualizarUsuario(@RequestParam long id,
-                                    @RequestParam String username,
-                                    @RequestParam String password,
-                                    @RequestParam UsuarioRole usuarioRole,
+                                    @RequestParam("username") String username,
+                                    @RequestParam(value = "password", required = false) String password,
+                                    @RequestParam("usuarioRole") UsuarioRole usuarioRole,
                                     @RequestParam(value = "imagem", required = false) MultipartFile fotoPerfil,
-                                    @RequestParam(required = false) Pessoa pessoa,
+                                    @RequestParam(value = "pessoa", required = false) Integer pessoaId,
                                     Model model) {
 
         Usuario usuario = usuarioRepository.findById(id).orElse(null);
@@ -118,14 +123,20 @@ public class UsuarioController {
 
         Usuario usuarioComMesmoLogin = usuarioRepository.findByUsername(username).orElse(null);
         if (usuarioComMesmoLogin != null && usuarioComMesmoLogin.getId() != id) {
-            usuario.setUsername(username);
-            usuario.setPassword(passwordEncoder.encode(password));
-            usuario.setPapel(usuarioRole);
-            usuario.setPessoa(pessoa);
             model.addAttribute("usuario", usuario);
             model.addAttribute("listaPessoa", listarPessoasDisponiveis(id));
-            model.addAttribute("listausuarioRole", UsuarioRole.values());
+            model.addAttribute("listaUsuarioRole", UsuarioRole.values());
+            model.addAttribute("usernameInformado", username);
             model.addAttribute("erroLogin", true);
+            return "editarUsuario";
+        }
+
+        Pessoa pessoa = pessoaId == null ? null : pessoaRepository.findById(pessoaId).orElse(null);
+        if (pessoaId != null && pessoa == null) {
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("listaPessoa", listarPessoasDisponiveis(id));
+            model.addAttribute("listaUsuarioRole", UsuarioRole.values());
+            model.addAttribute("erroPessoa", true);
             return "editarUsuario";
         }
 
@@ -133,19 +144,18 @@ public class UsuarioController {
                 ? usuarioRepository.findByPessoa_IdPessoa(pessoa.getIdPessoa()).orElse(null)
                 : null;
         if (usuarioComMesmoVinculo != null && usuarioComMesmoVinculo.getId() != id) {
-            usuario.setUsername(username);
-            usuario.setPassword(passwordEncoder.encode(password));
-            usuario.setPapel(usuarioRole);
             model.addAttribute("usuario", usuario);
             model.addAttribute("listaPessoa", listarPessoasDisponiveis(id));
-            model.addAttribute("listausuarioRole", UsuarioRole.values());
+            model.addAttribute("listaUsuarioRole", UsuarioRole.values());
+            model.addAttribute("usernameInformado", username);
             model.addAttribute("erroPessoa", true);
             return "editarUsuario";
         }
 
         usuario.setUsername(username);
-        // Criptografa a nova senha ao atualizar também
-        usuario.setPassword(passwordEncoder.encode(password));
+        if (password != null && !password.isBlank()) {
+            usuario.setPassword(passwordEncoder.encode(password));
+        }
         usuario.setPapel(usuarioRole);
         
         if (fotoPerfil != null && !fotoPerfil.isEmpty()) {

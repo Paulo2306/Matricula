@@ -15,7 +15,7 @@
             </a>
             <nav>
                 <a th:href="@{/dashboard}">Início</a>
-                <a th:href="@{/login}">Sair</a>
+                <span th:replace="~{fragments/logout :: logout}"></span>
             </nav>
         </div>
     </header>

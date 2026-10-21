@@ -27,16 +27,25 @@ public class Usuario implements UserDetails {
     private long id;
 
     // Renomeado de 'login' para 'username'
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(name = "login", nullable = false, unique = true)
     private String username;
 
-    // Renomeado de 'senhaHash' para 'password'
+    @Column(name = "username", nullable = false, unique = true)
+    private String usernameColumn;
+
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "senha_hash", nullable = false)
+    private String senhaHash;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "usuarioRole", nullable = false)
+    @Column(name = "papel", nullable = false)
     private UsuarioRole usuarioRole = UsuarioRole.USER;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "usuario_role", nullable = false)
+    private UsuarioRole usuarioRoleColumn = UsuarioRole.USER;
 
     @Column(name = "fotoPerfil")
     private String fotoPerfil;
@@ -50,8 +59,8 @@ public class Usuario implements UserDetails {
 
     // Construtor atualizado com os novos nomes
     public Usuario(String username, String password, UsuarioRole papel, String fotoPerfil, Pessoa pessoa) {
-        this.username = username;
-        this.password = password;
+        setUsername(username);
+        setPassword(password);
         this.usuarioRole = papel;
         this.fotoPerfil = fotoPerfil;
         this.pessoa = pessoa;
@@ -67,10 +76,12 @@ public class Usuario implements UserDetails {
 
     public void setUsername(String username) {
         this.username = username;
+        this.usernameColumn = username;
     }
 
     public void setPassword(String password) {
         this.password = password;
+        this.senhaHash = password;
     }
 
     public UsuarioRole getPapel() {
@@ -79,6 +90,7 @@ public class Usuario implements UserDetails {
 
     public void setPapel(UsuarioRole papel) {
         this.usuarioRole = papel;
+        this.usuarioRoleColumn = papel;
     }
 
     public String getFotoPerfil() {

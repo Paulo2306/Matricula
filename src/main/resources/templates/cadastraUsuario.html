@@ -16,7 +16,7 @@
             </a>
             <nav>
                 <a th:href="@{/dashboard}">Início</a>
-                <a th:href="@{/login}">Sair</a>
+                <span th:replace="~{fragments/logout :: logout}"></span>
             </nav>
         </div>
     </header>
@@ -24,24 +24,17 @@
     <main>
         <h2>Cadastro de Usuários</h2>
         <p th:if="${erroLogin}" class="mensagem-erro">Este login já está em uso. Escolha outro.</p>
+        <p th:if="${erroPessoa}" class="mensagem-erro">A pessoa selecionada não existe mais. Selecione novamente.</p>
 
         <form th:method="POST" th:action="@{/Usuarios}" enctype="multipart/form-data">
 
-            <input required type="text" placeholder="login" th:name="username" th:value="${loginInformado}">
+            <input required type="text" name="username" placeholder="Login" autocomplete="username" th:value="${loginInformado}">
 
-            <input required type="password" placeholder="senha" th:name="password">
-
-            <select id="papel" name="papel" >
-                <option value="" disabled selected>Selecione um papel</option>
-                <option th:each="papel : ${listaPapel}"
-                        th:value="${papel}"
-                        th:text="${papel}">
-                </option>
-            </select>
+            <input required type="password" name="password" placeholder="Senha" autocomplete="new-password">
 
             <input type="file" name="imagem">
 
-            <select  id="pessoa" name="pessoa">
+            <select id="pessoa" name="pessoa">
                 <option value="" disabled selected>Selecione uma pessoa</option>
                 <option th:each="pessoa : ${listaPessoa}"
                         th:value="${pessoa.idPessoa}"
@@ -62,4 +55,3 @@
     </main>
     </body>
 </html>
-

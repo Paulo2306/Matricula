@@ -15,7 +15,7 @@
             </a>
             <nav>
                 <a th:href="@{/dashboard}">Início</a>
-                <a th:href="@{/login}">Sair</a>
+                <span th:replace="~{fragments/logout :: logout}"></span>
             </nav>
         </div>
     </header>
@@ -23,20 +23,22 @@
     <main>
         <h2>Editar Usuário</h2>
         <p th:if="${erroLogin}" class="mensagem-erro">Este login já está em uso por outro usuário. Escolha outro.</p>
+        <p th:if="${erroPessoa}" class="mensagem-erro">A pessoa selecionada não está disponível. Selecione outra.</p>
 
         <form th:action="@{/atualizarUsuario}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" th:value="${usuario.id}">
 
-            <label>Login:</label>
-            <input required type="text" name="login" th:value="${usuario.login}">
+            <label for="username">Login:</label>
+            <input required type="text" id="username" name="username" autocomplete="username"
+                   th:value="${usernameInformado != null ? usernameInformado : usuario.username}">
 
-            <label>Senha:</label>
-            <input required type="text" name="senhaHash" th:value="${usuario.senhaHash}">
+            <label for="password">Nova senha (deixe em branco para manter):</label>
+            <input type="password" id="password" name="password" autocomplete="new-password">
 
             <label>Papel:</label>
-            <select name="papel" required>
+            <select name="usuarioRole" required>
                 <option value="" disabled>Selecione um papel</option>
-                <option th:each="papel : ${listaPapel}"
+                <option th:each="papel : ${listaUsuarioRole}"
                         th:value="${papel}"
                         th:text="${papel}"
                         th:selected="${usuario.papel != null and papel == usuario.papel}">

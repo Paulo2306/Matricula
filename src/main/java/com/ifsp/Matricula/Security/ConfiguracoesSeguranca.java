@@ -20,8 +20,6 @@ public class ConfiguracoesSeguranca {
     @Bean
     public SecurityFilterChain correnteFiltroSeguranca(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                // CSRF para desligar essa configuração
-                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         // Permite acesso público ao cadastro de usuário, ao login e aos arquivos de estilo
                         .requestMatchers(HttpMethod.GET, "/cadastraUsuario").permitAll()
@@ -33,6 +31,8 @@ public class ConfiguracoesSeguranca {
                 )
                 .formLogin(form -> form.loginPage("/login")
                         .loginProcessingUrl("/login")
+                        .usernameParameter("username")
+                        .passwordParameter("password")
                         .defaultSuccessUrl("/dashboard", true)
                         .failureUrl("/login?erro")
                         .permitAll()) // Habilita o formulário de login
