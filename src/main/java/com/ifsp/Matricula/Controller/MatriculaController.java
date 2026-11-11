@@ -2,10 +2,10 @@ package com.ifsp.Matricula.Controller;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class MatriculaController {
-    
+
     @Autowired
     private MatriculaRepository MatriculaRepository;
 
@@ -31,50 +31,50 @@ public class MatriculaController {
     private AlunoRepository alunoRepository;
 
     @Autowired
-    private CursoRepository cursoRepository;    
+    private CursoRepository cursoRepository;
 
     @Autowired
-    private OfertaDisciplinaRepository ofertaDisciplinaRepository; 
+    private OfertaDisciplinaRepository ofertaDisciplinaRepository;
 
     @Autowired
     private DisciplinaRepository disciplinaRepository;
 
     @Autowired
-    private ProfessorRepository professorRepository;   
-    
+    private ProfessorRepository professorRepository;
+
     @GetMapping("cadastraMatricula")
-    public String cadastroMatricula(Model model){
-        model.addAttribute("listaOfertaDisciplina",ofertaDisciplinaRepository.findAll());
-        model.addAttribute("listaCurso",cursoRepository.findAll());
-        model.addAttribute("listaAluno",alunoRepository.findAll());
-        model.addAttribute("listaProfessor",professorRepository.findAll());
+    public String cadastroMatricula(Model model) {
+        model.addAttribute("listaOfertaDisciplina", ofertaDisciplinaRepository.findAll());
+        model.addAttribute("listaCurso", cursoRepository.findAll());
+        model.addAttribute("listaAluno", alunoRepository.findAll());
+        model.addAttribute("listaProfessor", professorRepository.findAll());
         model.addAttribute("listaDisciplina", disciplinaRepository.findAll());
         return "/cadastraMatricula";
     }
-    
+
     @PostMapping("Matricula")
-    public String saveMatriculas(   @RequestParam Aluno aluno_id,
-                                    @RequestParam OfertaDisciplina ofertaDisciplina_id){
+    public String saveMatriculas(@RequestParam Aluno aluno_id,
+            @RequestParam OfertaDisciplina ofertaDisciplina_id) {
         MatriculaRepository.save(new Matricula(aluno_id, ofertaDisciplina_id));
         return "redirect:/cadastraMatricula?sucesso=true";
     }
 
     @GetMapping("listaMatricula")
-    public String listaMatriculas(Model model){
+    public String listaMatriculas(Model model) {
         List<Matricula> listaMatriculas = MatriculaRepository.findAll();
-        model.addAttribute("listaCurso",cursoRepository.findAll());
-        model.addAttribute("listaAluno",alunoRepository.findAll());
+        model.addAttribute("listaCurso", cursoRepository.findAll());
+        model.addAttribute("listaAluno", alunoRepository.findAll());
         model.addAttribute("listaDisciplina", disciplinaRepository.findAll());
-        model.addAttribute("listaMatriculas",listaMatriculas);
+        model.addAttribute("listaMatriculas", listaMatriculas);
         return "/listaMatricula";
     }
 
     // CARREGAR DADOS PARA EDIÇÃO
     @GetMapping("editarMatricula")
-    public String editarMatricula(@RequestParam long id, Model model){
+    public String editarMatricula(@RequestParam long id, Model model) {
         Matricula Matricula = MatriculaRepository.findById(id).orElse(null);
-        model.addAttribute("listaCurso",cursoRepository.findAll());
-        model.addAttribute("listaAluno",alunoRepository.findAll());
+        model.addAttribute("listaCurso", cursoRepository.findAll());
+        model.addAttribute("listaAluno", alunoRepository.findAll());
         model.addAttribute("listaDisciplina", ofertaDisciplinaRepository.findAll());
         model.addAttribute("matricula", Matricula);
         return "editarMatricula";
@@ -83,11 +83,11 @@ public class MatriculaController {
     // SALVAR EDIÇÃO
     @PostMapping("atualizarMatricula")
     public String atualizarMatricula(@RequestParam long id,
-                                    @RequestParam Aluno aluno,
-                                    @RequestParam OfertaDisciplina ofertaDisciplina  
-                                ){
+            @RequestParam Aluno aluno,
+            @RequestParam OfertaDisciplina ofertaDisciplina) {
 
-        Matricula Matricula = MatriculaRepository.findById(id).orElse(null);;
+        Matricula Matricula = MatriculaRepository.findById(id).orElse(null);
+        ;
         Matricula.setAluno(aluno);
         Matricula.setOfertaDisciplina(ofertaDisciplina);
         MatriculaRepository.save(Matricula);
@@ -96,9 +96,9 @@ public class MatriculaController {
 
     // EXCLUIR
     @GetMapping("excluirMatricula")
-    public String excluirMatricula(@RequestParam long id){
+    public String excluirMatricula(@RequestParam long id) {
         MatriculaRepository.deleteById(id);
         return "redirect:/listaMatricula";
     }
-    
+
 }

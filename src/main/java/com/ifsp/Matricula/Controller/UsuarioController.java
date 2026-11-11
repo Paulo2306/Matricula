@@ -6,9 +6,14 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +24,10 @@ import com.ifsp.Matricula.Model.Pessoa;
 import com.ifsp.Matricula.Model.Usuario;
 import com.ifsp.Matricula.Repository.PessoaRepository;
 import com.ifsp.Matricula.Repository.UsuarioRepository;
+import com.ifsp.Matricula.Service.CookieService;
 import com.ifsp.Matricula.Service.UsuarioService;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class UsuarioController {
@@ -33,12 +41,25 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @Autowired 
+    @Autowired
+    private CookieService cookieService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/login")
+    @GetMapping("/formlogin")
     public String formLogin() {
         return "login";
+    }
+
+    @GetMapping("/testelogin")
+    public String testeLogin(
+            @CookieValue(value = "usuario", required = false) String username,
+            Model model) {
+
+        model.addAttribute("username", username);
+
+        return "testelogin";
     }
 
     @GetMapping("cadastraUsuario")
@@ -49,10 +70,10 @@ public class UsuarioController {
 
     @PostMapping("Usuarios")
     public String saveUsuarios(@RequestParam("username") String username,
-                                @RequestParam("password") String password,
-                                @RequestParam(value = "imagem", required = false) MultipartFile fotoPerfil,
-                                @RequestParam(value = "pessoa", required = false) Integer pessoaId,
-                                Model model) {
+            @RequestParam("password") String password,
+            @RequestParam(value = "imagem", required = false) MultipartFile fotoPerfil,
+            @RequestParam(value = "pessoa", required = false) Integer pessoaId,
+            Model model) {
 
         if (usuarioRepository.findByUsername(username).isPresent()) {
             model.addAttribute("listaPessoa", listarPessoasDisponiveis(null));
@@ -71,21 +92,21 @@ public class UsuarioController {
 
         try {
             Usuario usuario = new Usuario();
-            
+
             if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
                 usuario.setFotoPerfil(usuarioService.salvarImagem(fotoPerfil));
             }
-            
+
             usuario.setUsername(username);
             // Criptografa a senha com BCrypt antes de salvar
             usuario.setPassword(passwordEncoder.encode(password));
-            
+
             usuario.setPapel(UsuarioRole.USER);
             usuario.setPessoa(pessoa);
-            
+
             usuarioRepository.save(usuario);
             return "redirect:/cadastraUsuario?sucesso=true";
-            
+
         } catch (IOException e) {
             return "Erro ao salvar o arquivo: " + e.getMessage();
         }
@@ -109,12 +130,12 @@ public class UsuarioController {
 
     @PostMapping("atualizarUsuario")
     public String atualizarUsuario(@RequestParam long id,
-                                    @RequestParam("username") String username,
-                                    @RequestParam(value = "password", required = false) String password,
-                                    @RequestParam("usuarioRole") UsuarioRole usuarioRole,
-                                    @RequestParam(value = "imagem", required = false) MultipartFile fotoPerfil,
-                                    @RequestParam(value = "pessoa", required = false) Integer pessoaId,
-                                    Model model) {
+            @RequestParam("username") String username,
+            @RequestParam(value = "password", required = false) String password,
+            @RequestParam("usuarioRole") UsuarioRole usuarioRole,
+            @RequestParam(value = "imagem", required = false) MultipartFile fotoPerfil,
+            @RequestParam(value = "pessoa", required = false) Integer pessoaId,
+            Model model) {
 
         Usuario usuario = usuarioRepository.findById(id).orElse(null);
         if (usuario == null) {
@@ -157,7 +178,7 @@ public class UsuarioController {
             usuario.setPassword(passwordEncoder.encode(password));
         }
         usuario.setPapel(usuarioRole);
-        
+
         if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
             try {
                 usuario.setFotoPerfil(usuarioService.salvarImagem(fotoPerfil));
@@ -165,7 +186,7 @@ public class UsuarioController {
                 return "Erro ao salvar o arquivo: " + e.getMessage();
             }
         }
-        
+
         usuario.setPessoa(pessoa);
         usuarioRepository.save(usuario);
 

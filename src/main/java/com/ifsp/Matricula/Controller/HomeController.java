@@ -10,7 +10,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String loginInicial() {
-        return "redirect:/login";
+        return "redirect:/formlogin";
     }
 
     @GetMapping("/dashboard")
