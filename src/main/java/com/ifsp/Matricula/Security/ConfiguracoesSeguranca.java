@@ -44,7 +44,18 @@ public class ConfiguracoesSeguranca {
                                                 .usernameParameter("username")
                                                 .passwordParameter("password")
 
-                                                .defaultSuccessUrl("/testelogin", true)
+                                                .successHandler((request, response, authentication) -> {
+
+                                                        String username = authentication.getName();
+
+                                                        ResponseCookie cookie = cookieService.criarCookie(username);
+
+                                                        response.addHeader(
+                                                                        HttpHeaders.SET_COOKIE,
+                                                                        cookie.toString());
+
+                                                        response.sendRedirect("/dashboard");
+                                                })
 
                                                 .failureUrl("/formlogin?erro=true")
                                                 .permitAll())

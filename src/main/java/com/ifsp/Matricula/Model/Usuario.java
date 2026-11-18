@@ -1,3 +1,4 @@
+
 package com.ifsp.Matricula.Model;
 
 import java.util.Collection;
@@ -7,60 +8,40 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Usuario")
+@Table(name = "usuario")
 public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    // Renomeado de 'login' para 'username'
     @Column(name = "login", nullable = false, unique = true)
     private String username;
-
-    @Column(name = "username", nullable = false, unique = true)
-    private String usernameColumn;
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "senha_hash", nullable = false)
-    private String senhaHash;
-
     @Enumerated(EnumType.STRING)
-    @Column(name = "papel", nullable = false)
+    @Column(name = "papel", nullable = false, length = 30)
     private UsuarioRole usuarioRole = UsuarioRole.USER;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "usuario_role", nullable = false)
-    private UsuarioRole usuarioRoleColumn = UsuarioRole.USER;
-
-    @Column(name = "fotoPerfil")
+    @Column(name = "foto_perfil")
     private String fotoPerfil;
 
     @OneToOne
-    @JoinColumn(name = "pessoa_id", unique = true, nullable = true)
+    @JoinColumn(name = "pessoa_id", unique = true)
     private Pessoa pessoa;
 
     public Usuario() {
     }
 
-    // Construtor atualizado com os novos nomes
-    public Usuario(String username, String password, UsuarioRole papel, String fotoPerfil, Pessoa pessoa) {
-        setUsername(username);
-        setPassword(password);
+    public Usuario(String username, String password,
+                   UsuarioRole papel, String fotoPerfil, Pessoa pessoa) {
+        this.username = username;
+        this.password = password;
         this.usuarioRole = papel;
         this.fotoPerfil = fotoPerfil;
         this.pessoa = pessoa;
@@ -76,12 +57,20 @@ public class Usuario implements UserDetails {
 
     public void setUsername(String username) {
         this.username = username;
-        this.usernameColumn = username;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
     }
 
     public void setPassword(String password) {
         this.password = password;
-        this.senhaHash = password;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     public UsuarioRole getPapel() {
@@ -90,7 +79,6 @@ public class Usuario implements UserDetails {
 
     public void setPapel(UsuarioRole papel) {
         this.usuarioRole = papel;
-        this.usuarioRoleColumn = papel;
     }
 
     public String getFotoPerfil() {
@@ -111,21 +99,14 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.usuarioRole == UsuarioRole.ADMIN)
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USUARIO"));
-        else
-            return List.of(new SimpleGrantedAuthority("ROLE_USUARIO"));
-    }
+        if (usuarioRole == UsuarioRole.ADMIN) {
+            return List.of(
+                new SimpleGrantedAuthority("ROLE_ADMIN"),
+                new SimpleGrantedAuthority("ROLE_USUARIO")
+            );
+        }
 
-    // Métodos do UserDetails simplificados, pois os campos agora têm exatamente os mesmos nomes
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.username;
+        return List.of(new SimpleGrantedAuthority("ROLE_USUARIO"));
     }
 
     @Override

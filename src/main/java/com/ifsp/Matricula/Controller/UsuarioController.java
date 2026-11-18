@@ -51,15 +51,9 @@ public class UsuarioController {
     public String formLogin() {
         return "login";
     }
-
-    @GetMapping("/testelogin")
-    public String testeLogin(
-            @CookieValue(value = "usuario", required = false) String username,
-            Model model) {
-
-        model.addAttribute("username", username);
-
-        return "testelogin";
+    @PostMapping("/login")
+    public String login(){
+        return "dashboard";
     }
 
     @GetMapping("cadastraUsuario")

@@ -6,7 +6,7 @@ public enum UsuarioRole {
     ALUNO("aluno"),
     PROFESSOR("professor");
 
-    private String role;
+    private final String role;
 
     UsuarioRole(String role) {
         this.role = role;
@@ -15,9 +15,4 @@ public enum UsuarioRole {
     public String getRole() {
         return role;
     }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
 }
